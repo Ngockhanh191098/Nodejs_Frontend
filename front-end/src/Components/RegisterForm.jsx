@@ -20,7 +20,6 @@ const RegisterForm = () => {
     }
 
     useEffect(() => {
-        console.log(formErrors)
         if(Object.keys(formErrors).length === 0 && isSubmit){
             console.log(formValues)
         }
@@ -98,7 +97,7 @@ const RegisterForm = () => {
             </Form.Group>
             <p className='text-danger'>{formErrors.password}</p>
             <Button variant="primary" type="submit">
-                Submit
+                REGISTER
             </Button>
         </Form>
         </div>

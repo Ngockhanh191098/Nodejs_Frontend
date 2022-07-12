@@ -30,7 +30,7 @@ const LoginForm = ({ setIsForgot}) => {
                     />
             </Form.Group>
             <div className='d-flex justify-content-between mb-4'>
-                <div><span >You have an account?</span><Link to="/register">Register Now</Link></div>
+                <div><span >You have an account? </span><Link to="/register">Register Now</Link></div>
                 <Link to='/login' onClick={redirectForgotPass}>Forgot Password</Link>
             </div>
             <Button variant="primary" type="submit">
