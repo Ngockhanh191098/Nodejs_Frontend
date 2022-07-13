@@ -2,18 +2,11 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { Link } from 'react-router-dom';
 
-const LoginForm = ({ setIsForgot}) => {
-    const redirectForgotPass = () => {
-        setIsForgot(true);
-    }
-    const handleSubmit = () => {
-
-    }
-
+const LoginForm = () => {
 
     return ( 
         <>
-            <Form className="dangnhap py-5 col-4 mx-auto" onSubmit={handleSubmit}>
+            <Form className="dangnhap py-5 col-4 mx-auto" >
             <h2 className='text-center'>FORM LOGIN</h2>
             <Form.Group className="mb-1" controlId="formBasicEmail">
                 <Form.Label>Username</Form.Label>
@@ -31,7 +24,7 @@ const LoginForm = ({ setIsForgot}) => {
             </Form.Group>
             <div className='d-flex justify-content-between mb-4'>
                 <div><span >You have an account? </span><Link to="/register">Register Now</Link></div>
-                <Link to='/login' onClick={redirectForgotPass}>Forgot Password</Link>
+                <Link to='/forgot-password'>Forgot Password</Link>
             </div>
             <Button variant="primary" type="submit">
                 Login
