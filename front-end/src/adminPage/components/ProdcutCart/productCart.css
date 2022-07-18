@@ -1,0 +1,23 @@
+.product-cart-container {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    align-items: center;
+    border-bottom: 1px solid rgb(162, 160, 160);
+}
+.product-cart-container .product-image img{
+    display: block;
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    padding: 5px;
+}
+.handle-btn .edit-btn{
+    margin-right: 20px;
+}
+.handle-btn .edit-btn,.delete-btn {
+    cursor: pointer;
+}
+.handle-btn .edit-btn:hover,.delete-btn:hover {
+    color: red;
+}

@@ -1,0 +1,85 @@
+.header-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background-color: antiquewhite;
+    position: sticky;
+    top: 0;
+    z-index: 999;
+}
+.header-logo {
+    width: 180px;
+}
+.header-logo img{
+    width: 200px;
+}
+.list-item {
+    display: flex;
+    list-style: none;
+    width: 400px;
+}
+.list-item a {
+    text-decoration: none;
+    padding: 0 20px;
+    font-size: 22px;
+    color: #111;
+}
+.list-item a:hover {
+    color: red;
+}
+.search-header {
+    display: flex;
+    align-items: center;
+}
+.search-header input {
+    border: 1px solid rgb(172, 169, 169);
+    border-radius: 5px;
+}
+.search-header .search-icon {
+    font-size: 30px;
+    margin-left: 10px;
+    cursor: pointer;
+}
+.search-header .search-icon:hover {
+    color: red;
+}
+
+.header-cart .cart-item{
+    font-size: 35px;
+    color: #111;
+}
+.header-cart .cart-item:hover {
+    color: red;
+}
+.header-account {
+    position: relative;
+}
+.header-account .account-info {
+    display: flex;
+    align-items: center;
+}
+.header-account .account-info img {
+    width: 30px;
+    border-radius: 50%;
+    margin-right: 5px;
+    cursor: pointer;
+}
+.manager-account {
+    position:absolute;
+    display: flex;
+    flex-direction: column;
+    width: 130px;
+    background-color: aliceblue;
+    display: none;
+}
+.header-account:hover .manager-account {
+    display: block;
+}
+.account-item {
+    font-size: 18px;
+    margin-right: 10px;
+}
+.manager-account .my-account {
+    font-size: 18px;
+    padding: 5px;
+}
