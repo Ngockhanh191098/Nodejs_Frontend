@@ -2,7 +2,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import './product.css';
 import Axios from 'axios';
 import { useEffect, useState } from 'react';
-import ListProduct from '../../components/ListProduct/ListProduct';
+import ListProduct from '../../ListProductManager/ListProductManager';
 const Product = () => {
 
     const [categories, setCategories] = useState([]);
@@ -47,7 +47,7 @@ const Product = () => {
                 </div>
             </div>
             <div className='list-product'>
-                <ListProduct />
+                <ListProduct categories={categories}/>
             </div>
         </div>
      )

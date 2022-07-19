@@ -10,16 +10,19 @@
     padding: 30px;
     border-radius: 10px;
     box-shadow: 2px 2px 2px rgb(141, 140, 140);
+    margin: 100px 0;
 }
 h2 {
     text-align: center;
 }
 .form-group {
     width: 100%;
+    margin-bottom: -15px;
 }
 label {
     display: block;
     font-size: 20px;
+    margin-bottom: -20px;
 }
 input {
     width: 100%;
@@ -36,4 +39,8 @@ button {
 }
 button:hover {
     background-color: rgb(60, 132, 227);
+}
+.error-form {
+    color: red;
+    margin-bottom: 20px;
 }

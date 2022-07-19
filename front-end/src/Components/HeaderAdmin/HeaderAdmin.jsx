@@ -1,10 +1,13 @@
 import { Link } from "react-router-dom";
-import Logo from "../../../images/logo1.png";
+import Logo from "../../images/logo1.png";
 import './headerAdmin.css';
 import { useNavigate } from "react-router-dom";
-import Header from "../../../Components/Header/Header";
+import Header from "../Header/Header";
+import UserContext from "../../Contexts/UserContext";
+import { useContext } from "react";
 
 const HeaderAdmin = () => {
+    const { setRole } = useContext(UserContext);
     let navigate = useNavigate();
     const username = localStorage.getItem('username');
     const avatar = localStorage.getItem('avatar');
@@ -12,7 +15,8 @@ const HeaderAdmin = () => {
         localStorage.removeItem('token');
         localStorage.removeItem('role');
         localStorage.removeItem('username');
-        localStorage.removeItem('avatar')
+        localStorage.removeItem('avatar');
+        setRole("");
         alert('Logout success');
         return navigate('/')
     }
