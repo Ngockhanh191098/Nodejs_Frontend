@@ -33,7 +33,7 @@ const ListProduct = (props) => {
             setLimit(res.data.limit);
         })
         .catch(err => console.log(err))
-    },[])
+    },[listProduct])
     
 
     const addProduct = () => {

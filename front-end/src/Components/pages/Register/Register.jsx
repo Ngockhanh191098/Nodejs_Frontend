@@ -36,7 +36,6 @@ const Register = () => {
                         newData
                     )
                     .then(res => {
-                        console.log(res);
                         alert('Register success!');
                         return navigate('/login')
                     })
@@ -72,7 +71,7 @@ const Register = () => {
 
     return ( 
         <div className="container">
-                <form className="form-container" onSubmit={handleSubmit}>
+                <form className="form-container" onSubmit={handleSubmit} noValidate>
                     <h2>FORM REGISTER</h2>
                     <div className="form-group">
                         <label>Username</label>

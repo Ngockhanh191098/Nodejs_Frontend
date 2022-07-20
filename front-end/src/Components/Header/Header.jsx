@@ -36,7 +36,7 @@ const Header = () => {
                 <div className='header-account'>
                     <div className='account-info'>
                         <img src={`http://127.0.0.1:5000/public/images/${avatar}`} alt={avatar} />
-                        <Link to="/info-user" className='username'>{username}</Link>
+                        <Link to="/manager-account" className='username'>{username}</Link>
                     </div>
                     <div className='manager-account'>
                         <p><Link to='/manager-account' className='my-account'>My Account</Link></p>

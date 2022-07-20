@@ -17,6 +17,7 @@ import HeaderAdmin from "./Components/HeaderAdmin/HeaderAdmin";
 import Header from "./Components/Header/Header";
 import NavbarAdmin from "./Components/NavbarAdmin/NavbarAdmin";
 import Shirt from "./Components/pages/Shirt/Shirt";
+import ManagerAccount from "./Components/pages/ManagerAccount/ManagerAccount";
 const App = () => {
     const [role, setRole] = useState("member");
     const isAdmin = localStorage.getItem('role');
@@ -45,6 +46,7 @@ const App = () => {
                     <Route path='/category' element={<Category />}></Route>
                     <Route path='/order' element={<Order />}></Route>
                     <Route path='/shirt' element={<Shirt />}></Route>
+                    <Route path='/manager-account' element={<ManagerAccount />}></Route>
                 </Routes>
                 <Footer />
             </Router>
