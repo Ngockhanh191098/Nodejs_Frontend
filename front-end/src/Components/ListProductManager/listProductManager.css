@@ -1,5 +1,8 @@
 .list-product-container {
     position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
 }
 .add-product {
     display: flex;

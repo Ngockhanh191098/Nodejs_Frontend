@@ -2,7 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import ProductCart from "../ProdcutCartManager/ProductCartManager";
 import AddBoxIcon from '@mui/icons-material/AddBox';
-import './listProduct.css';
+import './listProductManager.css';
 import Pagination from "../Pagination/Pagination";
 import {v4} from 'uuid';
 

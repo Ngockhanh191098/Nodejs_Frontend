@@ -7,8 +7,8 @@ import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import NavbarCustomer from '../Navbar/Navbar';
 
-
 const Header = () => {
+
     const navigate = useNavigate();
     const avatar = localStorage.getItem('avatar');
     const username = localStorage.getItem("username");
@@ -20,6 +20,7 @@ const Header = () => {
         alert("Logout Successfully!");
         return navigate('/');
     }
+
     return ( 
         <div className='header-container'>
             <Link to ='/' className='header-logo'>

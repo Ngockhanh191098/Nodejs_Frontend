@@ -1,5 +1,5 @@
 import SearchIcon from '@mui/icons-material/Search';
-import './product.css';
+import './productManager.css';
 import Axios from 'axios';
 import { useEffect, useState } from 'react';
 import ListProduct from '../../ListProductManager/ListProductManager';
@@ -23,9 +23,7 @@ const Product = () => {
             setCategories(res.data)
         })
         getCategory().catch(err => console.log(err))
-
-
-    }, [categories])
+    }, [])
     return ( 
         <div className="product-container">
             <div className="product-sidebar">

@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { useState } from "react";
 import Pagination from "../Pagination/Pagination";
 import ProductCart from "../ProductCart/ProductCart";
+import './listproduct.css';
 
 const ListProduct = () => {
 
@@ -31,7 +32,7 @@ const ListProduct = () => {
 
     return ( 
         <>
-            <section className="list-product-container">
+            <section className="list-products">
                 {listProduct.map((product) => {
                     return (
                         <div key={product.id}>
