@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import Banner from "../../commons/Banner/Banner";
 import ListProduct from "../../ListProduct/ListProduct";
 
-const TShirt = (props) => {
+const ProductCate = (props) => {
     const { idCategory } = props;
     const [listProduct, setListProduct] = useState([]);
 
@@ -18,7 +18,7 @@ const TShirt = (props) => {
         .catch(err => {
             console.log(err);
         })
-    },[])
+    },[idCategory])
     return ( 
         <>
             <Banner />
@@ -27,4 +27,4 @@ const TShirt = (props) => {
      );
 }
  
-export default TShirt;
+export default ProductCate;

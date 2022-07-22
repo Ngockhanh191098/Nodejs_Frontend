@@ -7,6 +7,8 @@ const Product = () => {
 
     const [categories, setCategories] = useState([]);
     const [listProduct, setListProduct] = useState([]);
+    const [idCategory, setIdCategory ] = useState(0);
+    const [searchKey, setSearchKey] = useState('');
     const [count, setCount] = useState(1);
     const [limit, setLimit] = useState(1);
 
@@ -27,26 +29,60 @@ const Product = () => {
         })
         getCategory().catch(err => console.log(err));
 
-        Axios.get(
-            "http://127.0.0.1:5000/api/v1/product?offset=0&limit=8",{
-                headers: {
-                    "Content-Type": "application/json",
-                    "x-access-token": localStorage.getItem('token')
-                    }
-            }
-        )
-        .then((res) => {
-            setListProduct(res.data.rows);
-            setCount(res.data.count);
-            setLimit(res.data.limit);
-        })
-        .catch(err => console.log(err))  
-    }, [])
+        if (idCategory === 0) {
+            Axios.get(
+                "http://127.0.0.1:5000/api/v1/product?offset=0&limit=8",{
+                    headers: {
+                        "Content-Type": "application/json",
+                        "x-access-token": localStorage.getItem('token')
+                        }
+                }
+            )
+            .then((res) => {
+                setListProduct(res.data.rows);
+                setCount(res.data.count);
+                setLimit(res.data.limit);
+            })
+            .catch(err => console.log(err));
+        }
+
+        if (searchKey === '') {
+            Axios.get(
+                `http://127.0.0.1:5000/api/v1/product/category/${idCategory}`
+            )
+            .then(res => {
+                setListProduct(res.data);
+            })
+            .catch(err => {
+                console.log(err);
+            })
+        }else {
+            Axios.get(
+                `http://127.0.0.1:5000/api/v1/product/search?key=${searchKey}`
+            )
+            .then(res => {
+                setListProduct(res.data);
+            })
+            .catch(err => {
+                console.log(err);
+            })
+        } 
+
+    }, [idCategory,searchKey])
+
+    const getIdCategory = (id) => {
+        setIdCategory(id);
+    }
+
     return ( 
         <div className="product-container">
             <div className="product-sidebar">
                 <div className="search-product">
-                    <input type='text' placeholder="Search product..." />
+                    <input 
+                        type='text' 
+                        placeholder="Search product..." 
+                        onChange={(e) => setSearchKey(e.target.value)}    
+                    />
                     <SearchIcon className='search-icon'/>
                 </div>
                 <div className='product-by-category'>
@@ -55,7 +91,7 @@ const Product = () => {
                         {categories.map((category) => {
                             return (
                                 <div key={category.id} className="category-item">
-                                    <li>{category.name}</li>
+                                    <li onClick={() => getIdCategory(category.id)}>{category.name}</li>
                                 </div>
                             )
                         })}
@@ -63,7 +99,7 @@ const Product = () => {
                 </div>
             </div>
             <div className='list-product'>
-                <ListProductManager categories={categories} listProduct={listProduct} count={count} limit={limit} setListProduct={setListProduct}/>
+                <ListProductManager categories={categories} listProduct={listProduct} count={count} limit={limit} setListProduct={setListProduct} idCategory={idCategory}/>
             </div>
         </div>
      )

@@ -3,7 +3,7 @@ import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import './productCart.css';
 
 const ProductCart = (props) => {
-    const { title, price, size, image } = props;
+    const {id, title, price, size, image } = props;
     return ( 
         <>
             <section className="dog-cart-container">

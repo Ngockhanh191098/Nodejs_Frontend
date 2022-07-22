@@ -32,7 +32,6 @@ const FormAddProduct = (props) => {
             }
         })
         .then(res => {
-            console.log(res.data);
             alert('Add product success!');
             setAppenForm(false);
         })

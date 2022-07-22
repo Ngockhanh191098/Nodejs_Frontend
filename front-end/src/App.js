@@ -16,13 +16,12 @@ import { useState } from "react";
 import HeaderAdmin from "./Components/HeaderAdmin/HeaderAdmin";
 import Header from "./Components/Header/Header";
 import NavbarAdmin from "./Components/NavbarAdmin/NavbarAdmin";
-import Shirt from "./Components/pages/Shirt/Shirt";
 import ManagerAccount from "./Components/pages/ManagerAccount/ManagerAccount";
-import TShirt from "./Components/pages/TShirt/TShirt";
-import Jeans from "./Components/pages/Jeans/Jeans";
-import Short from "./Components/pages/Short/Short";
 import Reset from "./Components/pages/Reset/Reset";
 import SearchProduct from "./Components/pages/SearchProduct/SearchProduct";
+import ProductCate from "./Components/pages/ProductCate/ProductCate";
+import CategoryManager from "./Components/pages/CategoryManager/CategoryManager";
+import AddCategory from "./Components/pages/AddCategory/AddCategory";
 
 const App = () => {
     const [user, setUser] = useState({});
@@ -48,17 +47,16 @@ const App = () => {
                     <Route path='/' element={<Home />}></Route>
                     <Route path='/register' element={<Register />}></Route>
                     <Route path='/login' element={<Login />}></Route>
-                    <Route path='/product' element={<ProductManager />}></Route>
+                    <Route path='/product-manager' element={<ProductManager />}></Route>
                     <Route path='/customer' element={<Customer />}></Route>
                     <Route path='/category' element={<Category />}></Route>
                     <Route path='/order' element={<Order />}></Route>
-                    <Route path='/category/shirt' element={<Shirt idCategory={idCategory}/>}></Route>
-                    <Route path='/category/t-shirt' element={<TShirt idCategory={idCategory}/>}></Route>
-                    <Route path='/category/jeans' element={<Jeans idCategory={idCategory}/>}></Route>
-                    <Route path='/category/short' element={<Short idCategory={idCategory}/>}></Route>
+                    <Route path='/category/product' element={<ProductCate idCategory={idCategory}/>}></Route>
                     <Route path='/manager-account' element={<ManagerAccount />}></Route>
                     <Route path='/reset/:tempToken' element={<Reset />}></Route>
                     <Route path='/search' element={<SearchProduct searchKey={searchKey}/>}></Route>
+                    <Route path='/category-manager' element={<CategoryManager />}></Route>
+                    <Route path='/add-category' element={<AddCategory />}></Route>
                 </Routes>
                 <Footer />
             </Router>

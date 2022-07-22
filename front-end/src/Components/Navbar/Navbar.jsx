@@ -9,7 +9,7 @@ const NavbarCustomer = (props) => {
     const handleClick = (id,name) => {
         setIdCategory(id);
         const nameCate = name.toLowerCase()
-        navigate(`/category/${nameCate}`)
+        navigate(`/category/product`)
     }
 
     return ( 

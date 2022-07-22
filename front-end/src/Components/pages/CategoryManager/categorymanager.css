@@ -1,0 +1,54 @@
+.cate-manager-container {
+    min-height: 70vh;
+    margin: 20px;
+    display: flex;
+    flex-direction: column;
+}
+.cate-manager-container h2 {
+    margin: 50px 0;
+}
+.cate-item {
+    display: flex;
+    width: 50%;
+    justify-content: space-around;
+    margin: 20px auto;
+    border-bottom: 1px solid #999;
+}
+.cate-title {
+    display: flex;
+}
+.cate-title strong {
+    margin-right: 30px;
+}
+.edit-cate, .delete-cate {
+    margin-right: 20px;
+    cursor: pointer;
+} 
+.edit-cate:hover, .delete-cate:hover {
+    color: red;
+}
+.btn-add-category {
+    width: 50%;
+    margin: 0 auto;
+}
+.update-category-container {
+    display: flex;
+    justify-content: center;
+    margin: 100px;
+}
+.form-update-category {
+    background-color: antiquewhite;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 2px 2px 2px #999;
+    width: 400px;
+}
+.form-update-category h3 {
+    margin-bottom: 20px;
+}
+.form-update-category .form-group {
+    margin-bottom: 20px;
+}
+.form-update-category button {
+    margin-bottom: 20px;
+}

@@ -35,6 +35,7 @@ const Header = (props) => {
         localStorage.removeItem("role");
         localStorage.removeItem("avatar");
         localStorage.removeItem("username");
+        localStorage.removeItem('idUser');
         alert("Logout Successfully!");
         return navigate('/');
     }

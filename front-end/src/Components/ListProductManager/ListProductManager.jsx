@@ -8,10 +8,8 @@ import FormAddProduct from "../FormAddProduct/FormAddProduct";
 import Pagination from "../Pagination/Pagination";
 
 const ListProduct = (props) => {
-    const {categories, listProduct, count, limit, setListProduct} = props; 
-
-    const [appenForm, setAppenForm] = useState(false)
-    
+    const {categories, listProduct, count, limit, setListProduct } = props;
+    const [appenForm, setAppenForm] = useState(false);
 
     const addProduct = () => {
         setAppenForm(true)
