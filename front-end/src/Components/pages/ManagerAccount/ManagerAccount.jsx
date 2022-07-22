@@ -1,15 +1,20 @@
 import axios from "axios";
 import { useState } from "react";
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import './managerAccount.css';
 import CloseIcon from '@mui/icons-material/Close';
 
 const ManagerAccount = () => {
+
+    const navigate = useNavigate();
+
     const [account, setAccount] = useState({})
     const initialValues = {currentPassword: "", newPassword: "", confirmPassword: "" };
     const [formValues, setFormValues] = useState(initialValues)
     const [formErrors, setFormErrors] = useState({})
     const [isSubmit, setIsSubmit] = useState(false)
+    const [formChangePass, setFormChangePass] = useState(false)
 
     const username = localStorage.getItem('username');
     useEffect(() => {
@@ -27,14 +32,16 @@ const ManagerAccount = () => {
         .catch(err => {
             console.log(err);
         });
+        const isSuccess = Object.keys(formErrors).length === 0 && isSubmit;
 
-        if (Object.keys(formErrors).length === 0 && isSubmit){
-            const newPassword = {
-                        password: formValues.password
+        if (isSuccess){
+            const dataChange = {
+                        currentPassword: formValues.currentPassword,
+                        newPassword: formValues.newPassword
                     }
                     axios.put(
                         `http://127.0.0.1:5000/api/v1/user?username=${username}`,
-                        newPassword,{
+                        dataChange,{
                             headers: {
                                 "Content-Type": "application/json",
                                 "x-access-token": localStorage.getItem('token')
@@ -42,18 +49,24 @@ const ManagerAccount = () => {
                         }
                     )
                     .then(res => {
-                        alert('Change password success!');
+                        alert(res.data.message);
+                        return navigate('/')
                     })
-                    .catch(err => console.log(err))
+                    .catch(err => {
+                        console.log(err);
+                        if(err.response.status === 400) {
+                            alert(err.response.data.message)
+                        }
+                    })
         }
     },[formErrors]);
 
     const closeForm = () => {
-        document.querySelector(".form-change-pass").style.display = "none"
+        setFormChangePass(false);
     }
 
     const handleChangePass = () => {
-        document.querySelector(".form-change-pass").style.display = "block"
+        setFormChangePass(true);
     }
 
     const handleChange = (e) => {
@@ -88,23 +101,13 @@ const ManagerAccount = () => {
     }
 
     return ( 
-        <>
             <div className="account-manager-container">
-                <div className="account-avatar">
-                    <img src={`http://127.0.0.1:5000/public/images/${account.avatar}`} alt={account.avatar} />
-                    <button className="change-avt">Change Avatar</button>
-                </div>
-                <div className="account-info-action">
-                    <div className="account-info"><strong>Username: </strong><span>{account.username}</span></div>
-                    <div className="account-info"><strong>Email: </strong><span>{account.email}</span></div>
-                    <button className="account-action" onClick={handleChangePass}>Change Password</button>
-                    <button className="account-action">My Order</button>
-                </div>
+            {formChangePass ? (
                 <div className="form-change-pass">
                     <CloseIcon  className="close-icon" onClick={closeForm}/>
                     <h3>CHANGE PASSWORD</h3>
                     <form onSubmit={handleSubmit}>
-                    <div className="form-group">
+                        <div className="form-group">
                             <label>Current Password</label>
                             <input 
                                 type="password" 
@@ -136,12 +139,25 @@ const ManagerAccount = () => {
                                 onChange={handleChange}     
                             />
                         </div>
-                        <p className="error-form">{ formErrors.confirmPassword }</p>
-                        <button type="submit" className="change-pass-btn">Change Password</button>
-                    </form>
-                </div>
+                    <p className="error-form">{ formErrors.confirmPassword }</p>
+                    <button type="submit" className="change-pass-btn">Change Password</button>
+                </form>
             </div>
-        </>
+            ) : (
+               <>
+                    <div className="account-avatar">
+                        <img src={`http://127.0.0.1:5000/public/images/${account.avatar}`} alt={account.avatar} />
+                        <button className="change-avt">Change Avatar</button>
+                    </div>
+                    <div className="account-info-action">
+                        <div className="account-info"><strong>Username: </strong><span>{account.username}</span></div>
+                        <div className="account-info"><strong>Email: </strong><span>{account.email}</span></div>
+                        <button className="account-action" onClick={handleChangePass}>Change Password</button>
+                        <button className="account-action">My Order</button>
+                    </div>
+               </>
+            )}
+            </div>
      );
 }
  

@@ -1,17 +1,35 @@
 import './header.css';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Logo from '../../images/logo1.png';
 import SearchIcon from '@mui/icons-material/Search';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import NavbarCustomer from '../Navbar/Navbar';
+import axios from 'axios';
 
-const Header = () => {
+
+const Header = (props) => {
 
     const navigate = useNavigate();
-    const avatar = localStorage.getItem('avatar');
+    const {setIdCategory, setSearchKey} = props;
+    const [listCategory, setListCategory] = useState([])
+    const avatar = localStorage.getItem('avatar')
     const username = localStorage.getItem("username");
+
+    useEffect(() => {
+        axios.get(
+            "http://127.0.0.1:5000/api/v1/category"
+        )
+        .then(res => {
+            setListCategory(res.data)
+        })
+        .catch(err => {
+            console.log(err);
+        })
+    },[]);
+
+
     const handleLogout = () => {
         localStorage.removeItem("token");
         localStorage.removeItem("role");
@@ -21,21 +39,29 @@ const Header = () => {
         return navigate('/');
     }
 
-    return ( 
+    const handleSearch = () => {
+        return navigate('/search');
+    }
+
+    return (
         <div className='header-container'>
             <Link to ='/' className='header-logo'>
                 <img src={Logo} alt={Logo} />
             </Link>
-            <NavbarCustomer />
+            <NavbarCustomer listCategory={listCategory} setIdCategory={setIdCategory} className="list-category-customer"/>
             <div className='search-header'>
-                <input type="text" placeholder='Search product...'/>
-                <SearchIcon className='search-icon'/>
+                <input 
+                    type="text" 
+                    placeholder='Search product...'
+                    onChange={(e) => setSearchKey(e.target.value)}    
+                />
+                <SearchIcon className='search-icon' onClick={handleSearch}/>
             </div>
                 <Link className='header-cart' to='/cart'><ShoppingCartIcon className='cart-item'/></Link>
             {(username) ? (
                 <div className='header-account'>
                     <div className='account-info'>
-                        <img src={`http://127.0.0.1:5000/public/images/${avatar}`} alt={avatar} />
+                        <img src={`http://127.0.0.1:5000/public/images/${avatar}`} alt="avatar" />
                         <Link to="/manager-account" className='username'>{username}</Link>
                     </div>
                     <div className='manager-account'>

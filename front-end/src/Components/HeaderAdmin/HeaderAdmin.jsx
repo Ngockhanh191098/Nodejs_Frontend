@@ -10,7 +10,7 @@ const HeaderAdmin = () => {
     const { setRole } = useContext(UserContext);
     let navigate = useNavigate();
     const username = localStorage.getItem('username');
-    const avatar = localStorage.getItem('avatar');
+    const avatar = localStorage.getItem('avatar')
     const handleLogout = () => {
         localStorage.removeItem('token');
         localStorage.removeItem('role');
@@ -30,7 +30,7 @@ const HeaderAdmin = () => {
             </div>
             <h2>ADMIN PAGE</h2>
             <div className="admin-account">
-                <img src={`http://127.0.0.1:5000/public/images/${avatar}`} alt={avatar} />
+                <img src={`http://127.0.0.1:5000/public/images/${avatar}`} alt="avatar" />
                 <Link to="/info-user" className='username'>{username}</Link>
                 <div className='manager-account-admin'>
                         <p><Link to='/info-user' className='my-account'>My Account</Link></p>

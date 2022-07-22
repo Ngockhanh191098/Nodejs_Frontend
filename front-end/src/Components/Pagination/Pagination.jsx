@@ -91,8 +91,8 @@ const Pagination = (props) => {
             <ul className="pagin-list">
                 <li onClick={() => prevPage()}>PREVIOUS</li>
                 {
-                    data.map((e) => {
-                        return (<li data-index={e} onClick={() => pagination1({e})}>{e}</li>)
+                    data.map((e,index) => {
+                        return (<li key={index} data-index={e} onClick={() => pagination1({e})}>{e}</li>)
                     })
                 }
 

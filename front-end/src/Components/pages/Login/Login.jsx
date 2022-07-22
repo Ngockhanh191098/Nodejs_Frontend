@@ -1,8 +1,8 @@
 import { useContext, useState } from "react";
 import Button from "../../commons/buttons/Button";
-import Input from "../../commons/inputs/Input";
+import './login.css';
 import axios from 'axios';
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import UserContext from "../../../Contexts/UserContext";
 
 
@@ -11,16 +11,18 @@ const Login = () => {
 
     const navigate = useNavigate();
 
+    const [isForgot, setIsForgot] = useState(false);
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const { setRole } = useContext(UserContext);
+    const [email, setEmail] = useState('');
+    const { setUser } = useContext(UserContext);
+    const dataLogin = {
+        username: username,
+        password: password
+    };
 
     const handleSubbmit = (e) => {
         e.preventDefault();
-        const dataLogin = {
-            username: username,
-            password: password
-        };
         axios.post(
             "http://127.0.0.1:5000/api/v1/auth/signin",
             dataLogin
@@ -34,17 +36,42 @@ const Login = () => {
             localStorage.setItem('avatar', avatar)
             localStorage.setItem('role',role)
             localStorage.setItem("username", username)
-            setRole(role);
+            setUser(res.data);
             alert("Login Successfully!")
             return navigate('/')
         })
-        .catch(err => alert("Your username or password is incorrect! Please login again!"));
+        .catch(err => alert(err.response.data.message));
+    };
+
+    const handleForgot = () => {
+        setIsForgot(true)
+    }
+    const handleCancel = () => {
+        setIsForgot(false)
+    }
+    const data = {
+        email: email
+    }
+    const handleSendEmail = () => {
+        axios.post(
+            'http://127.0.0.1:5000/api/v1/account/forgotpass',
+            data
+        )
+        .then(res => {
+            localStorage.setItem("idUser",res.data.id);
+            alert(res.data.message);
+        })
+        .catch(err => {
+            console.log(err);
+        })
     }
     
 
     return ( 
         <div className="container">
-                <form className="form-container" onSubmit={handleSubbmit}>
+                {(!isForgot) ? (
+                <>
+                    <form className="form-container" onSubmit={handleSubbmit}>
                     <h2>FORM LOGIN</h2>
                     <div className="form-group">
                         <label>Username</label>
@@ -55,11 +82,24 @@ const Login = () => {
                         <input type="password" onChange={(e) => setPassword(e.target.value)} placeholder="Enter your Password" required/>
                     </div>
                     <div style={{display:"flex",justifyContent:"space-around",marginBottom:"20px"}}>
-                        <a href="/register">Register Now</a>
-                        <a href="/forgot-password">Forgot Password</a>
+                        <Link to="/register">Register Now</Link>
+                        <Link to="/login" onClick={handleForgot}>Forgot Password</Link>
                     </div>
                     <Button type="submit" title="Login"/>
                 </form>
+                </>) : (
+                <>
+                    <div className="forgot-pass-container">
+                        <p>Please feild your email to change password!</p>
+                        <input 
+                            type="email" 
+                            placeholder="Your email"
+                            onChange={(e) => setEmail(e.target.value)}
+                            />
+                        <button type="button" onClick={handleSendEmail}>OK</button>
+                        <button type="button" onClick={handleCancel}>Cancel</button>
+                    </div>
+                </>)}
         </div>
      );
 }

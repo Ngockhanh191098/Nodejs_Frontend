@@ -2,10 +2,13 @@ import SearchIcon from '@mui/icons-material/Search';
 import './productManager.css';
 import Axios from 'axios';
 import { useEffect, useState } from 'react';
-import ListProduct from '../../ListProductManager/ListProductManager';
+import ListProductManager from '../../ListProductManager/ListProductManager';
 const Product = () => {
 
     const [categories, setCategories] = useState([]);
+    const [listProduct, setListProduct] = useState([]);
+    const [count, setCount] = useState(1);
+    const [limit, setLimit] = useState(1);
 
     useEffect(() => {
         async function getCategory() {
@@ -22,7 +25,22 @@ const Product = () => {
         getCategory().then(res => {
             setCategories(res.data)
         })
-        getCategory().catch(err => console.log(err))
+        getCategory().catch(err => console.log(err));
+
+        Axios.get(
+            "http://127.0.0.1:5000/api/v1/product?offset=0&limit=8",{
+                headers: {
+                    "Content-Type": "application/json",
+                    "x-access-token": localStorage.getItem('token')
+                    }
+            }
+        )
+        .then((res) => {
+            setListProduct(res.data.rows);
+            setCount(res.data.count);
+            setLimit(res.data.limit);
+        })
+        .catch(err => console.log(err))  
     }, [])
     return ( 
         <div className="product-container">
@@ -45,7 +63,7 @@ const Product = () => {
                 </div>
             </div>
             <div className='list-product'>
-                <ListProduct categories={categories}/>
+                <ListProductManager categories={categories} listProduct={listProduct} count={count} limit={limit} setListProduct={setListProduct}/>
             </div>
         </div>
      )

@@ -37,12 +37,10 @@
     cursor: pointer;
 }
 .form-change-pass {
-    position: absolute;
     background-color: antiquewhite;
     width: 400px;
     padding: 40px;
     box-shadow: 2px 2px 2px #333;
-    display: none;
 }
 .form-change-pass h3 {
     text-align: center;
@@ -52,9 +50,6 @@
     margin-bottom: 20px;
 }
 .close-icon {
-    position: absolute;
-    right: 10px;
-    top: 10px;
     cursor: pointer;
 }
 .close-icon:hover {

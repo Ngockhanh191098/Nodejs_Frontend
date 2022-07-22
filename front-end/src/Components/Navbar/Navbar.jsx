@@ -1,46 +1,26 @@
 
-import axios from 'axios';
-import { useState } from 'react';
-import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './navbar.css'
-const NavbarCustomer = () => {
-    const [listCategory, setListCategory] = useState([])
+const NavbarCustomer = (props) => {
+    const { listCategory, setIdCategory } = props;
+
     const navigate = useNavigate();
 
-        useEffect(() => {
-        axios.get(
-            "http://127.0.0.1:5000/api/v1/category"
-        )
-        .then(res => {
-            setListCategory(res.data)
-        })
-        .catch(err => {
-            console.log("loi roi");
-        })
-    },[]);
-
     const handleClick = (id,name) => {
-        navigate(`/${name.toLowerCase()}`)
-        axios.get(
-            `http://127.0.0.1:5000/api/v1/product/${id}`
-        )
-        .then(res => {
-            console.log(res.data);
-        })
-        .catch(err => {
-            console.log(err);
-        })
+        setIdCategory(id);
+        const nameCate = name.toLowerCase()
+        navigate(`/category/${nameCate}`)
     }
 
     return ( 
-        <>
-            {listCategory.map((category) => {
+        <ul className='list-category-customer'>
+            {listCategory.map((category, index) => {
+                
                 return (
-                    <p onClick={() => handleClick(category.id, category.name)} key={category.id} className="list-category">{category.name}</p>
+                    <li onClick={() => handleClick(category.id, category.name)} key={index} className="list-category">{category.name}</li>
                 )
             })}
-        </>
+        </ul>
      );
 }
  
