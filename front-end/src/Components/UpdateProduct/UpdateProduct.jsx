@@ -1,12 +1,10 @@
+// import { useState } from "react";
+
 import axios from "axios";
 import { useState } from "react";
-import {v4} from 'uuid';
 
-
-
-const FormAddProduct = (props) => {
-
-    const { categories,setAppenForm } = props;
+const UpdateProduct = (props) => {
+    const { categories, setAppendFormUpdate, idProduct } = props;
 
     const [title, setTitle] = useState('');
     const [price, setPrice] = useState('');
@@ -25,22 +23,23 @@ const FormAddProduct = (props) => {
         formData.append('description', description);
         formData.append('categoryId', category);
 
-        axios.post('http://127.0.0.1:5000/api/v1/product',formData,{
+        axios.put(`http://127.0.0.1:5000/api/v1/product/${idProduct}`,formData,{
             headers: {
                 "Content-Type": "multipart/form-data",
                 "x-access-token": localStorage.getItem('token')
             }
         })
         .then(res => {
-            alert('Add product success!');
-            setAppenForm(false);
+            console.log(res.data);
+            setAppendFormUpdate(false);
         })
         .catch(err => console.log(err))
     }
 
+
     return ( 
-                <form onSubmit={handleSubmit} className="form-add-product">
-                    <h3>ADD PRODUCT</h3>
+        <form onSubmit={handleSubmit} className="form-add-product">
+                <h3>UPDATE PRODUCT</h3>
                     <div className="form-group">
                         <label className="label">Title</label>
                         <input type="text" onChange={(e) => setTitle(e.target.value)} required/>
@@ -81,4 +80,4 @@ const FormAddProduct = (props) => {
      );
 }
  
-export default FormAddProduct;
+export default UpdateProduct;

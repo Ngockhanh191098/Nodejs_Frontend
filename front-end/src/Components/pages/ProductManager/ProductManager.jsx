@@ -3,7 +3,8 @@ import './productManager.css';
 import Axios from 'axios';
 import { useEffect, useState } from 'react';
 import ListProductManager from '../../ListProductManager/ListProductManager';
-const Product = () => {
+const Product = (props) => {
+    const { setIdProduct } = props;
 
     const [categories, setCategories] = useState([]);
     const [listProduct, setListProduct] = useState([]);
@@ -99,7 +100,14 @@ const Product = () => {
                 </div>
             </div>
             <div className='list-product'>
-                <ListProductManager categories={categories} listProduct={listProduct} count={count} limit={limit} setListProduct={setListProduct} idCategory={idCategory}/>
+                <ListProductManager 
+                    categories={categories} 
+                    listProduct={listProduct} 
+                    count={count} limit={limit} 
+                    setListProduct={setListProduct} 
+                    idCategory={idCategory}
+                    setIdProduct={setIdProduct}
+                />
             </div>
         </div>
      )

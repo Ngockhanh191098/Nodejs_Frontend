@@ -21,7 +21,7 @@ const Reset = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         axios.put(
-            `http://127.0.0.1:5000/api/v1/account/reset/${idUser}`,
+            `http://127.0.0.1:5000/api/v1/account/reset`,
             newPass
         )
         .then(res => {

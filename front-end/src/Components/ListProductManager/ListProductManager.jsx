@@ -6,10 +6,14 @@ import './listProductManager.css';
 import CloseIcon from '@mui/icons-material/Close';
 import FormAddProduct from "../FormAddProduct/FormAddProduct";
 import Pagination from "../Pagination/Pagination";
+import UpdateProduct from "../UpdateProduct/UpdateProduct";
 
 const ListProduct = (props) => {
     const {categories, listProduct, count, limit, setListProduct } = props;
-    const [appenForm, setAppenForm] = useState(false);
+    const [appendFormAdd, setAppenForm] = useState(false);
+    const [appendFormUpdate, setAppendFormUpdate] = useState(false)
+    const [idProduct, setIdProduct] = useState(0);
+    console.log(idProduct);
 
     const addProduct = () => {
         setAppenForm(true)
@@ -17,14 +21,24 @@ const ListProduct = (props) => {
 
     const handleCLoseForm = () => {
         setAppenForm(false);
+        setAppendFormUpdate(false);
     }
 
     return ( 
         <div className="list-product-container"> 
-            {appenForm ? (
+            {(appendFormAdd || appendFormUpdate) ? (
                 <>
+                    {appendFormAdd ? (
+                        <>
                         <CloseIcon className="close-form" onClick={handleCLoseForm}/>
                         <FormAddProduct  categories={categories} setAppenForm={setAppenForm}/>
+                   </>
+                    ) : (
+                       <>
+                         <CloseIcon className="close-form" onClick={handleCLoseForm}/>
+                        <UpdateProduct categories={categories} setAppendFormUpdate={setAppendFormUpdate} idProduct={idProduct}/>
+                       </>
+                    )}   
                 </>
             ) : (
                 <>
@@ -41,7 +55,8 @@ const ListProduct = (props) => {
                                 price={product.price}
                                 image={product.image}
                                 size={product.size}
-                                description={product.description}
+                                setAppendFormUpdate={setAppendFormUpdate}
+                                setIdProduct={setIdProduct}
                             />
                         </div>
                     )

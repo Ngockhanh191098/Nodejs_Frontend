@@ -24,7 +24,7 @@ const CategoryManager = () => {
         .catch(err => {
             console.log(err);
         })
-    },[listCategory]);
+    },[]);
 
     const handleDelete = (id) => {
         axios.delete(
