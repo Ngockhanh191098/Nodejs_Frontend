@@ -43,7 +43,7 @@ const AddCategory = () => {
                             onChange={(e) => setNameCate(e.target.value)}
                         />
                     </div>
-                    <button type="submit">UPDATE</button>
+                    <button type="submit">ADD CATEGORY</button>
                 </form>
         </div>
      );

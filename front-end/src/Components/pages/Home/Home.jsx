@@ -7,6 +7,7 @@ import ListProduct from '../../ListProduct/ListProduct';
 import Pagination from '../../Pagination/Pagination';
 
 const Home = () => {
+
     const { isAdmin } = useContext(UserContext);
     const [listProduct, setListProduct] = useState([]);
     const [count, setCount] = useState(1);
@@ -29,7 +30,7 @@ const Home = () => {
             <Banner />
             {(isAdmin === 'admin') ? (<></>) : (
                 <>
-                    <ListProduct listProduct={listProduct}/>
+                    <ListProduct listProduct={listProduct} />
                     <Pagination limit={limit} count={count} setListProduct={setListProduct}/>
                 </>
             )}

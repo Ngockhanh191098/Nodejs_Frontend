@@ -20,16 +20,17 @@ import ProductCate from "./Components/pages/ProductCate/ProductCate";
 import CategoryManager from "./Components/pages/CategoryManager/CategoryManager";
 import AddCategory from "./Components/pages/AddCategory/AddCategory";
 import CustomerManager from "./Components/pages/CustomerManager/CustomerManager";
-import UpdateProduct from "./Components/UpdateProduct/UpdateProduct";
+import ProductDetail from "./Components/pages/ProductDetail/ProductDetail";
 
 const App = () => {
     const [user, setUser] = useState({});
     const [idCategory, setIdCategory] = useState(0)
     const [searchKey, setSearchKey] = useState('')
+    const [idProduct, setIdProduct] = useState(0);
     const isAdmin = localStorage.getItem('role');
 
     return ( 
-        <UserContext.Provider value={{setUser, isAdmin, user}}>
+        <UserContext.Provider value={{setUser, isAdmin, user, setIdProduct}}>
             <Router>
                 {(isAdmin === 'admin') ? (
                         <>
@@ -54,6 +55,7 @@ const App = () => {
                     <Route path='/category-manager' element={<CategoryManager />}></Route>
                     <Route path='/add-category' element={<AddCategory />}></Route>
                     <Route path='/customer-manager' element={<CustomerManager />}></Route>
+                    <Route path='/product-detail' element={<ProductDetail idProduct={idProduct}/>}></Route>
                 </Routes>
                 <Footer />
             </Router>

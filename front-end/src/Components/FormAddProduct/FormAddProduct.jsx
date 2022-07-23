@@ -76,7 +76,7 @@ const FormAddProduct = (props) => {
                             })}
                         </select>
                     </div>
-                    <button type="submit" className="add-btn">Update Product</button>
+                    <button type="submit" className="add-btn">Add Product</button>
                 </form>
      );
 }
