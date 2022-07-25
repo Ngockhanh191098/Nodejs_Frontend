@@ -21,17 +21,22 @@ import CategoryManager from "./Components/pages/CategoryManager/CategoryManager"
 import AddCategory from "./Components/pages/AddCategory/AddCategory";
 import CustomerManager from "./Components/pages/CustomerManager/CustomerManager";
 import ProductDetail from "./Components/pages/ProductDetail/ProductDetail";
+import Cart from "./Components/pages/Cart/Cart";
+import CartContext from "./Contexts/CartContext";
+
 
 const App = () => {
     const [user, setUser] = useState({});
-    const [idCategory, setIdCategory] = useState(0)
-    const [searchKey, setSearchKey] = useState('')
+    const [idCategory, setIdCategory] = useState(0);
+    const [searchKey, setSearchKey] = useState('');
+    const [listCart, setListCart] = useState([]);
     const [idProduct, setIdProduct] = useState(0);
     const isAdmin = localStorage.getItem('role');
 
     return ( 
         <UserContext.Provider value={{setUser, isAdmin, user, setIdProduct}}>
-            <Router>
+        <CartContext.Provider value={{listCart, setListCart}}>
+        <Router>
                 {(isAdmin === 'admin') ? (
                         <>
                             <HeaderAdmin />
@@ -55,10 +60,12 @@ const App = () => {
                     <Route path='/category-manager' element={<CategoryManager />}></Route>
                     <Route path='/add-category' element={<AddCategory />}></Route>
                     <Route path='/customer-manager' element={<CustomerManager />}></Route>
+                    <Route path='/cart' element={<Cart />}></Route>
                     <Route path='/product-detail' element={<ProductDetail idProduct={idProduct}/>}></Route>
                 </Routes>
                 <Footer />
             </Router>
+        </CartContext.Provider>
         </UserContext.Provider>
      );
 }

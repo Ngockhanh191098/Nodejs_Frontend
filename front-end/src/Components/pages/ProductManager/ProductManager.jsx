@@ -34,7 +34,6 @@ const Product = (props) => {
             Axios.get(
                 "http://127.0.0.1:5000/api/v1/product?offset=0&limit=8",{
                     headers: {
-                        "Content-Type": "application/json",
                         "x-access-token": localStorage.getItem('token')
                         }
                 }

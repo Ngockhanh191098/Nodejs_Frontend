@@ -7,6 +7,7 @@ import './productDetail.css';
 const ProductDetail = (props) => {
 
     const [product, setProduct] = useState({});
+    const [quantity, setQuantity] = useState(1);
     const { idProduct } = props;
 
     useEffect(() => {
@@ -18,8 +19,20 @@ const ProductDetail = (props) => {
         })
         .catch(err => {
             alert(err.response.data.message);
-        })
+        });
+
     }, [])
+
+    if(quantity === 0) {
+        setQuantity(1);
+    }
+    const handleDown = () => {
+        setQuantity(quantity - 1);
+    }
+
+    const handleUp = () => {
+        setQuantity(quantity + 1);
+    }
 
     return ( 
         <>
@@ -46,9 +59,9 @@ const ProductDetail = (props) => {
                 </div>
                 <div className="product-quantity">
                     <div className="choose-quantity">
-                        <ControlPointIcon  className="product-up-down"/>
-                        <input type="number" value='1'/>
-                        <ControlPointIcon className="product-up-down"/>
+                        <ControlPointIcon  className="product-up-down" onClick={handleDown}/>
+                        <input type="number" value={quantity}/>
+                        <ControlPointIcon className="product-up-down" onClick={handleUp}/>
                     </div>
                 </div>
                 <div className="product-action">

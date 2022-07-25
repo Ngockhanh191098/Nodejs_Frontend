@@ -32,10 +32,12 @@ const Login = () => {
             const role = res.data.role;
             const username = res.data.username;
             const avatar = res.data.avatar;
+            const idUser = res.data.id;
             localStorage.setItem("token",token)
             localStorage.setItem('avatar', avatar)
             localStorage.setItem('role',role)
             localStorage.setItem("username", username)
+            localStorage.setItem("idUser", idUser)
             setUser(res.data);
             alert("Login Successfully!")
             return navigate('/')

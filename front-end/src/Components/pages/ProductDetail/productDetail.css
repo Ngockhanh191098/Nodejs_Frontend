@@ -52,6 +52,8 @@
     width: 100px;
     text-align: center;
     margin: 0 10px;
+    font-size: 20px;
+    font-weight: 500;
 }
 .product-up-down {
     cursor: pointer;
