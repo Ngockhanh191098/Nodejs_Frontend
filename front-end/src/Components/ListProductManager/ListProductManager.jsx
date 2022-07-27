@@ -9,11 +9,10 @@ import Pagination from "../Pagination/Pagination";
 import UpdateProduct from "../UpdateProduct/UpdateProduct";
 
 const ListProduct = (props) => {
-    const {categories, listProduct, count, limit, setListProduct } = props;
+    const {categories, listProduct, count, limit, setListProduct, isAction, setIsAction } = props;
     const [appendFormAdd, setAppenForm] = useState(false);
     const [appendFormUpdate, setAppendFormUpdate] = useState(false)
     const [idProduct, setIdProduct] = useState(0);
-    console.log(idProduct);
 
     const addProduct = () => {
         setAppenForm(true)
@@ -31,12 +30,23 @@ const ListProduct = (props) => {
                     {appendFormAdd ? (
                         <>
                         <CloseIcon className="close-form" onClick={handleCLoseForm}/>
-                        <FormAddProduct  categories={categories} setAppenForm={setAppenForm}/>
-                   </>
+                        <FormAddProduct  
+                            categories={categories} 
+                            setAppenForm={setAppenForm} 
+                            setIsAction={setIsAction}
+                            isAction={isAction}
+                        />
+                        </>
                     ) : (
                        <>
                          <CloseIcon className="close-form" onClick={handleCLoseForm}/>
-                        <UpdateProduct categories={categories} setAppendFormUpdate={setAppendFormUpdate} idProduct={idProduct}/>
+                        <UpdateProduct 
+                            categories={categories} 
+                            setAppendFormUpdate={setAppendFormUpdate} 
+                            idProduct={idProduct}
+                            setIsAction={setIsAction}
+                            isAction={isAction}
+                        />
                        </>
                     )}   
                 </>
@@ -57,6 +67,8 @@ const ListProduct = (props) => {
                                 size={product.size}
                                 setAppendFormUpdate={setAppendFormUpdate}
                                 setIdProduct={setIdProduct}
+                                setIsAction={setIsAction}
+                                isAction={isAction}
                             />
                         </div>
                     )

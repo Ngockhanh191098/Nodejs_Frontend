@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import './reset.css';
 
 const Reset = () => {
@@ -25,12 +26,12 @@ const Reset = () => {
             newPass
         )
         .then(res => {
-            alert(res.data.message);
+            toast.success(res.data.message);
             localStorage.removeItem("idUser");
             return navigate('/');
         })
         .catch(err => {
-            alert(err.response.data.message);
+            toast.error(err.response.data.message);
         })
     }
     return ( 

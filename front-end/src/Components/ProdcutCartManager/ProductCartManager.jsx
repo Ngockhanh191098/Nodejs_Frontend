@@ -2,12 +2,10 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import './productCart.css';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const ProductCart = (props) => {
-    const { id, title, price, image, size, setAppendFormUpdate, setIdProduct } = props;
-
-    const navigate = useNavigate();
+    const { id, title, price, image, size, setAppendFormUpdate, setIdProduct, isAction, setIsAction } = props;
 
     const deleteProduct = () => {
         axios.delete(
@@ -17,9 +15,10 @@ const ProductCart = (props) => {
                 }
         })
         .then((res) => {
-            alert(res.data.message);
+            toast.success(res.data.message);
+            setIsAction(!isAction)
         })
-        .catch(err => console.log(err))
+        .catch(err => toast.error(err.response.data.message))
     };
 
     const updateProduct = (idProduct) => {

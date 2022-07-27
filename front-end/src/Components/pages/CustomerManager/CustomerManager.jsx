@@ -6,11 +6,13 @@ import Table from 'react-bootstrap/Table';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import './customerManager.css';
+import { toast } from "react-toastify";
 // import 'bootstrap/dist/css/bootstrap.css';
 
 const CustomerManager = () => {
 
     const [listUser, setListUser] = useState([]);
+    const [isAction, setIsAction] = useState(false)
 
     useEffect(() => {
         axios.get(
@@ -25,7 +27,7 @@ const CustomerManager = () => {
         .catch(err => {
             console.log(err);
         })
-    }, [])
+    }, [isAction])
 
     const handleDelete = (id) => {
 
@@ -36,10 +38,11 @@ const CustomerManager = () => {
                 }
         })
         .then(res => {
-            alert(res.data.message);
+            toast.success(res.data.message);
+            setIsAction(!isAction)
         })
         .catch(err => {
-            alert(err.response.data.message);
+            toast.error(err.response.data.message);
         })
     }
 

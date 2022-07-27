@@ -4,15 +4,38 @@ import { useEffect } from "react";
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import './categorymanager.css';
-import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const CategoryManager = () => {
-    const navigate = useNavigate();
 
     const [listCategory, setListCategory] = useState([]);
     const [idCate, setIdCate] = useState(0);
     const [isUpdate, setIsUpdate] = useState(false);
-    const [nameCategory, setNameCategory] = useState('')
+    const [nameCategory, setNameCategory] = useState('');
+    const [isAction, setIsAction] = useState(false);
+    const [isAddCate, setIsAddCate] = useState(false)
+    const [nameCate, setNameCate] = useState('');
+    const dataAdd = {
+        name: nameCate
+    }
+    const handleAddCate = (e) => {
+        e.preventDefault();
+        axios.post(
+            'http://127.0.0.1:5000/api/v1/category',dataAdd,{
+                headers: {
+                    "x-access-token": localStorage.getItem('token')
+                }
+        })
+        .then(res => {
+            toast.success(res.data.message);
+            setIsAction(!isAction)
+            setIsAddCate(false);
+        })
+        .catch(err => {
+            toast.error(err.response.data.message)
+        })
+        
+    }
 
     useEffect(() => {
         axios.get(
@@ -24,7 +47,7 @@ const CategoryManager = () => {
         .catch(err => {
             console.log(err);
         })
-    },[listCategory]);
+    },[isAction]);
 
     const handleDelete = (id) => {
         axios.delete(
@@ -34,62 +57,90 @@ const CategoryManager = () => {
                 }
         })
         .then(res => {
-            alert(res.data.message);
+            toast.success(res.data.message);
+            setIsAction(!isAction)
         })
-        .catch(err => alert(err.response.data.message))
+        .catch(err => toast.error(err.response.data.message))
     }
 
     const handleUpdate = (id) => {
         setIsUpdate(true);
         setIdCate(id)
     }
-    const data = {
+    const dataUpdate = {
         name: nameCategory
     }
 
-    const handleSubmit = (e) => {
+    const handleUpdateCate = (e) => {
         e.preventDefault();
         axios.put(
-            `http://127.0.0.1:5000/api/v1/category/${idCate}`,data,{
+            `http://127.0.0.1:5000/api/v1/category/${idCate}`,dataUpdate,{
                 headers: {
                     "x-access-token": localStorage.getItem('token')
                 }
         })
         .then(res => {
-            alert(res.data.message);
+            toast.success(res.data.message);
+            setIsAction(!isAction)
         })
         .catch(err => {
-            alert(err.response.data.message);
+            toast.error(err.response.data.message);
         })
         setIsUpdate(false)
     }
 
-    const handleCancel = () => {
+    const handleCancelUpdate = () => {
         setIsUpdate(false)
+    }
+    const handleCancelAdd = () => {
+        setIsAddCate(false);
     }
 
     const handleAddCategory = () => {
-        return navigate('/add-category');
+        setIsAddCate(true);
     }
 
     return ( 
         <>
-            {(isUpdate) ? (
-            <div className="update-category-container">
-                <form className="form-update-category" onSubmit={handleSubmit}>
-                    <h3>UPDATE CATEGORY</h3>
-                    <div className="form-group">
-                        <label>Name</label>
-                        <input 
-                            type="text" 
-                            placeholder="name category..."
-                            onChange={(e) => setNameCategory(e.target.value)}
-                        />
+            {(isUpdate || isAddCate) ? (
+            <>
+                {isAddCate ? (
+                    <>
+                        <div className="add-category-container">
+                            <form className="form-add-category" onSubmit={handleAddCate}>
+                                <h2 className="add-cate-title">ADD CATEGORY</h2>
+                                <div className="form-group">
+                                    <label>Name</label>
+                                    <input 
+                                        type="text" 
+                                        placeholder="name category..."
+                                        onChange={(e) => setNameCate(e.target.value)}
+                                    />
+                                </div>
+                                <button type="submit">ADD CATEGORY</button>
+                                <button onClick={handleCancelAdd}>CANCEL</button>
+                            </form>
+                        </div>
+                    </>
+                ) : (
+                    <div className="update-category-container">
+                        <form className="form-update-category" onSubmit={handleUpdateCate}>
+                            <h3>UPDATE CATEGORY</h3>
+                            <div className="form-group">
+                                <label>Name</label>
+                                <input 
+                                    type="text" 
+                                    placeholder="name category..."
+                                    onChange={(e) => setNameCategory(e.target.value)}
+                                />
+                            </div>
+                            <button type="submit">UPDATE</button>
+                            <button onClick={handleCancelUpdate}>CANCEL</button>
+                        </form>
                     </div>
-                    <button type="submit">UPDATE</button>
-                    <button onClick={handleCancel}>CANCEL</button>
-                </form>
-            </div>
+                )}
+                
+            </>
         ) : (
             <div className="cate-manager-container">
             <h2>CATEGORY MANAGER</h2>

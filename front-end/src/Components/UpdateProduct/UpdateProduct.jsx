@@ -2,9 +2,10 @@
 
 import axios from "axios";
 import { useState } from "react";
+import { toast } from "react-toastify";
 
 const UpdateProduct = (props) => {
-    const { categories, setAppendFormUpdate, idProduct } = props;
+    const { categories, setAppendFormUpdate, idProduct, isAction, setIsAction } = props;
 
     const [title, setTitle] = useState('');
     const [price, setPrice] = useState('');
@@ -30,8 +31,9 @@ const UpdateProduct = (props) => {
             }
         })
         .then(res => {
-            console.log(res.data);
+            toast.success(res.data.message)
             setAppendFormUpdate(false);
+            setIsAction(!isAction);
         })
         .catch(err => console.log(err))
     }

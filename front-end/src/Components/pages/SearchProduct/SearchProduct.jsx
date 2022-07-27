@@ -14,7 +14,6 @@ const SearchProduct = (props) => {
             `http://127.0.0.1:5000/api/v1/product/search?key=${searchKey}`
         )
         .then(res => {
-            console.log(res);
             setListProduct(res.data);
         })
         .catch(err => {

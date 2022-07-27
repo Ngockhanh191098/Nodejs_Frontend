@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import './managerAccount.css';
 import CloseIcon from '@mui/icons-material/Close';
+import { toast } from "react-toastify";
 
 const ManagerAccount = () => {
 
@@ -49,13 +50,13 @@ const ManagerAccount = () => {
                         }
                     )
                     .then(res => {
-                        alert(res.data.message);
+                        toast.success(res.data.message);
                         return navigate('/')
                     })
                     .catch(err => {
                         console.log(err);
                         if(err.response.status === 400) {
-                            alert(err.response.data.message)
+                            toast.error(err.response.data.message)
                         }
                     })
         }

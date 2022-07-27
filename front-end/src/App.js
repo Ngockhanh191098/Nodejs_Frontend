@@ -18,24 +18,20 @@ import Reset from "./Components/pages/Reset/Reset";
 import SearchProduct from "./Components/pages/SearchProduct/SearchProduct";
 import ProductCate from "./Components/pages/ProductCate/ProductCate";
 import CategoryManager from "./Components/pages/CategoryManager/CategoryManager";
-import AddCategory from "./Components/pages/AddCategory/AddCategory";
 import CustomerManager from "./Components/pages/CustomerManager/CustomerManager";
 import ProductDetail from "./Components/pages/ProductDetail/ProductDetail";
 import Cart from "./Components/pages/Cart/Cart";
-import CartContext from "./Contexts/CartContext";
-
-
+import { ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
+import Checkout from "./Components/pages/Checkout/Checkout";
 const App = () => {
     const [user, setUser] = useState({});
     const [idCategory, setIdCategory] = useState(0);
     const [searchKey, setSearchKey] = useState('');
-    const [listCart, setListCart] = useState([]);
-    const [idProduct, setIdProduct] = useState(0);
     const isAdmin = localStorage.getItem('role');
 
     return ( 
-        <UserContext.Provider value={{setUser, isAdmin, user, setIdProduct}}>
-        <CartContext.Provider value={{listCart, setListCart}}>
+        <UserContext.Provider value={{setUser, isAdmin, user}}>
         <Router>
                 {(isAdmin === 'admin') ? (
                         <>
@@ -58,14 +54,14 @@ const App = () => {
                     <Route path='/reset/:tempToken' element={<Reset />}></Route>
                     <Route path='/search' element={<SearchProduct searchKey={searchKey}/>}></Route>
                     <Route path='/category-manager' element={<CategoryManager />}></Route>
-                    <Route path='/add-category' element={<AddCategory />}></Route>
                     <Route path='/customer-manager' element={<CustomerManager />}></Route>
                     <Route path='/cart' element={<Cart />}></Route>
-                    <Route path='/product-detail' element={<ProductDetail idProduct={idProduct}/>}></Route>
+                    <Route path='/checkout' element={<Checkout />}></Route>
+                    <Route path='/product-detail/:id' element={<ProductDetail/>}></Route>
                 </Routes>
                 <Footer />
             </Router>
-        </CartContext.Provider>
+            <ToastContainer />
         </UserContext.Provider>
      );
 }

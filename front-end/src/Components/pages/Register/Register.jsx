@@ -4,6 +4,7 @@ import axios from 'axios';
 import './register.css';
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+import { toast } from "react-toastify";
 
 const Register = () => {
     const navigate = useNavigate();
@@ -36,10 +37,10 @@ const Register = () => {
                         newData
                     )
                     .then(res => {
-                        alert('Register success!');
+                        toast.success('Register success!');
                         return navigate('/login')
                     })
-                    .catch(err => console.log(err))
+                    .catch(err => toast.error(err.response.data.message))
         }
     }, [formErrors])
     

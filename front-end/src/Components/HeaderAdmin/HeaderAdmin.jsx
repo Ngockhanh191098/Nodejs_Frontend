@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import Header from "../Header/Header";
 import UserContext from "../../Contexts/UserContext";
 import { useContext } from "react";
+import { toast } from "react-toastify";
 
 const HeaderAdmin = () => {
     const { setRole } = useContext(UserContext);
@@ -17,7 +18,7 @@ const HeaderAdmin = () => {
         localStorage.removeItem('username');
         localStorage.removeItem('avatar');
         setRole("");
-        alert('Logout success');
+        toast.success('Logout successfully');
         return navigate('/')
     }
 

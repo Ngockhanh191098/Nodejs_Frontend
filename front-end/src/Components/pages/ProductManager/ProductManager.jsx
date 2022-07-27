@@ -12,6 +12,7 @@ const Product = (props) => {
     const [searchKey, setSearchKey] = useState('');
     const [count, setCount] = useState(1);
     const [limit, setLimit] = useState(1);
+    const [isAction, setIsAction] = useState(false);
 
     useEffect(() => {
         async function getCategory() {
@@ -68,7 +69,7 @@ const Product = (props) => {
             })
         } 
 
-    }, [idCategory,searchKey])
+    }, [idCategory,searchKey,isAction])
 
     const getIdCategory = (id) => {
         setIdCategory(id);
@@ -106,6 +107,8 @@ const Product = (props) => {
                     setListProduct={setListProduct} 
                     idCategory={idCategory}
                     setIdProduct={setIdProduct}
+                    isAction={isAction}
+                    setIsAction={setIsAction}
                 />
             </div>
         </div>

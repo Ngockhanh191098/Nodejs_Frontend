@@ -1,12 +1,13 @@
 import axios from "axios";
 import { useState } from "react";
+import { toast } from "react-toastify";
 import {v4} from 'uuid';
 
 
 
 const FormAddProduct = (props) => {
 
-    const { categories,setAppenForm } = props;
+    const { categories,setAppenForm, isAction, setIsAction } = props;
 
     const [title, setTitle] = useState('');
     const [price, setPrice] = useState('');
@@ -32,10 +33,13 @@ const FormAddProduct = (props) => {
             }
         })
         .then(res => {
-            alert('Add product success!');
+            toast.success(res.data.message);
             setAppenForm(false);
+            setIsAction(!isAction);
         })
-        .catch(err => console.log(err))
+        .catch(err => {
+            toast.error(err.response.data.message)
+        })
     }
 
     return ( 

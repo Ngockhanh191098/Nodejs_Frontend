@@ -4,8 +4,7 @@ import './login.css';
 import axios from 'axios';
 import { Link, useNavigate } from "react-router-dom";
 import UserContext from "../../../Contexts/UserContext";
-
-
+import { toast } from "react-toastify";
 
 const Login = () => {
 
@@ -28,6 +27,7 @@ const Login = () => {
             dataLogin
         )
         .then(res => {
+            toast.success(res.data.message)
             const token = res.data.accessToken;
             const role = res.data.role;
             const username = res.data.username;
@@ -39,10 +39,12 @@ const Login = () => {
             localStorage.setItem("username", username)
             localStorage.setItem("idUser", idUser)
             setUser(res.data);
-            alert("Login Successfully!")
+            toast.success("Login successfully!")
             return navigate('/')
         })
-        .catch(err => alert(err.response.data.message));
+        .catch(err => {
+            toast.error(err.response.data.message)
+        });
     };
 
     const handleForgot = () => {
@@ -60,15 +62,13 @@ const Login = () => {
             data
         )
         .then(res => {
-            localStorage.setItem("idUser",res.data.id);
-            alert(res.data.message);
+            toast.success(res.data.message);
         })
         .catch(err => {
-            console.log(err);
+            toast.error(err.response.data.message);
         })
     }
     
-
     return ( 
         <div className="container">
                 {(!isForgot) ? (

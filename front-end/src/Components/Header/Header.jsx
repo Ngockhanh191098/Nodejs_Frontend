@@ -1,5 +1,5 @@
 import './header.css';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import Logo from '../../images/logo1.png';
 import SearchIcon from '@mui/icons-material/Search';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
@@ -7,19 +7,26 @@ import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import NavbarCustomer from '../Navbar/Navbar';
 import axios from 'axios';
-import CartContext from '../../Contexts/CartContext';
+// import CartContext from '../../Contexts/CartContext';
+// import UserContext from '../../Contexts/UserContext';
+import { toast } from 'react-toastify';
 
 
 
 const Header = (props) => {
+
+    // const {  numberBadge } = useContext(CartContext)
     const {setIdCategory, setSearchKey} = props;
-    const [items, setItems] = useState(0);
-    const [listCategory, setListCategory] = useState([])
-    const avatar = localStorage.getItem('avatar')
+    const [listCategory, setListCategory] = useState([]);
+    const avatar = localStorage.getItem('avatar');
     const username = localStorage.getItem("username");
     const idUser = localStorage.getItem('idUser');
     const navigate = useNavigate();
-
+    const handleLogout = () => {
+        localStorage.clear();
+        toast.success("Logout Successfully!");
+        return navigate('/');
+    }
     useEffect(() => {
         axios.get(
             "http://127.0.0.1:5000/api/v1/category"
@@ -31,29 +38,27 @@ const Header = (props) => {
             console.log(err);
         });
 
-        if (idUser) {
-            axios.get(
-                `http://127.0.0.1:5000/api/v1/cart/${idUser}`,{
-                    headers: {
-                        "Content-Type": "Application/json",
-                        "x-access-token": localStorage.getItem('token')
-                        }
-            })
-            .then(res => {
-                setItems(res.data.countItem);
-            })
-            .catch(err => {
-                console.log(err.response.data.message);
-            })
-        }
-    },[listCategory,items]);
+        // if(idUser) {
+        //     axios.get(
+        //         `http://127.0.0.1:5000/api/v1/cart/${idUser}`,{
+        //             headers: {
+        //                 "Content-Type": "Application/json",
+        //                 "x-access-token": localStorage.getItem('token')
+        //                 }
+        //     })
+        //     .then(res => {
+        //         localStorage.setItem('countItem', res.data.countItem);
+        //         setProductInCart(res.data.items || []);
+        //         setNumberBadge(res.data.countItem);
+        //     })
+        //     .catch(err => {
+        //         console.log(err.response.data.message);
+        //     })
+        // }
+    },[]);
 
 
-    const handleLogout = () => {
-        localStorage.clear();
-        alert("Logout Successfully!");
-        return navigate('/');
-    }
+    
 
     const handleSearch = () => {
         return navigate('/search');
@@ -73,10 +78,17 @@ const Header = (props) => {
                 />
                 <SearchIcon className='search-icon' onClick={handleSearch}/>
             </div>
-            <div className='cart-item'>
-                <Link className='header-cart' to='/cart'><ShoppingCartIcon className='cart-item'/></Link>
-                <span className='cart-quantity'>{items}</span>
-            </div>
+            {(idUser) ? (
+                <div className='cart-item'>
+                    <Link className='header-cart' to='/cart'><ShoppingCartIcon className='cart-item' /></Link>
+                    {/* <span className='cart-quantity'>{numberBadge}</span> */}
+                </div>
+            ) : (
+                <div className='cart-item'>
+                    <Link className='header-cart' to='/login'><ShoppingCartIcon className='cart-item'/></Link>
+                    {/* <span className='cart-quantity'>{numberBadge}</span> */}
+                </div>
+            )}
             {(username) ? (
                 <div className='header-account'>
                     <div className='account-info'>
