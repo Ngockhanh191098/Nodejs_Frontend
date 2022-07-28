@@ -14,7 +14,6 @@ const ListProduct = (props) => {
     const [appendFormAdd, setAppenForm] = useState(false);
     const [appendFormUpdate, setAppendFormUpdate] = useState(false)
     const [idProduct, setIdProduct] = useState(0);
-    const [product, setProduct] = useState({});
 
     const addProduct = () => {
         setAppenForm(true)
@@ -24,27 +23,6 @@ const ListProduct = (props) => {
         setAppenForm(false);
         setAppendFormUpdate(false);
     }
-
-    useEffect(() => {
-        if(idProduct !== 0) {
-            axios.get(
-                `http://127.0.0.1:5000/api/v1/product/${idProduct}`,{
-                    headers: {
-                        "x-access-token": localStorage.getItem('token')
-                    }
-            })
-            .then(res => {
-                setProduct(res.data)
-            })
-            .catch(err => {
-                console.log(err);
-            })
-    
-        }
-    }, [idProduct])
-
-
-
 
     return ( 
         <div className="list-product-container"> 
@@ -69,7 +47,6 @@ const ListProduct = (props) => {
                             idProduct={idProduct}
                             setIsAction={setIsAction}
                             isAction={isAction}
-                            product={product}
                         />
                        </>
                     )}   
