@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ProductCart from "../ProdcutCartManager/ProductCartManager";
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import './listProductManager.css';
@@ -7,12 +7,14 @@ import CloseIcon from '@mui/icons-material/Close';
 import FormAddProduct from "../FormAddProduct/FormAddProduct";
 import Pagination from "../Pagination/Pagination";
 import UpdateProduct from "../UpdateProduct/UpdateProduct";
+import axios from "axios";
 
 const ListProduct = (props) => {
     const {categories, listProduct, count, limit, setListProduct, isAction, setIsAction } = props;
     const [appendFormAdd, setAppenForm] = useState(false);
     const [appendFormUpdate, setAppendFormUpdate] = useState(false)
     const [idProduct, setIdProduct] = useState(0);
+    const [product, setProduct] = useState({});
 
     const addProduct = () => {
         setAppenForm(true)
@@ -22,6 +24,27 @@ const ListProduct = (props) => {
         setAppenForm(false);
         setAppendFormUpdate(false);
     }
+
+    useEffect(() => {
+        if(idProduct !== 0) {
+            axios.get(
+                `http://127.0.0.1:5000/api/v1/product/${idProduct}`,{
+                    headers: {
+                        "x-access-token": localStorage.getItem('token')
+                    }
+            })
+            .then(res => {
+                setProduct(res.data)
+            })
+            .catch(err => {
+                console.log(err);
+            })
+    
+        }
+    }, [idProduct])
+
+
+
 
     return ( 
         <div className="list-product-container"> 
@@ -46,6 +69,7 @@ const ListProduct = (props) => {
                             idProduct={idProduct}
                             setIsAction={setIsAction}
                             isAction={isAction}
+                            product={product}
                         />
                        </>
                     )}   
@@ -57,22 +81,22 @@ const ListProduct = (props) => {
                         <p className="add-title">ADD PRODUCT</p>
                     </div>
                     {listProduct.map((product) => {
-                    return (
-                        <div key={product.id}>
-                            <ProductCart 
-                                id={product.id}
-                                title={product.title}
-                                price={product.price}
-                                image={product.image}
-                                size={product.size}
-                                setAppendFormUpdate={setAppendFormUpdate}
-                                setIdProduct={setIdProduct}
-                                setIsAction={setIsAction}
-                                isAction={isAction}
-                            />
-                        </div>
-                    )
-                 })}
+                        return (
+                            <div key={product.id}>
+                                <ProductCart 
+                                    id={product.id}
+                                    title={product.title}
+                                    price={product.price}
+                                    image={product.image}
+                                    size={product.size}
+                                    setAppendFormUpdate={setAppendFormUpdate}
+                                    setIdProduct={setIdProduct}
+                                    setIsAction={setIsAction}
+                                    isAction={isAction}
+                                />
+                            </div>
+                        )
+                    })}
                  <Pagination count={count} limit={limit} setListProduct={setListProduct}/>
                 </>
             )}

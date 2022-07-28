@@ -14,22 +14,23 @@ const ProductDetail = () => {
     const idUser = localStorage.getItem('idUser');
     const username = localStorage.getItem('username');
     const [productDetail, setProductDetail] = useState({});
-    const navigate = useNavigate()
-
-    const getOneProduct = async () => {
-        const res = await axios.get(
-            `http://127.0.0.1:5000/api/v1/product/detail/${params.id}`
-        );
-    
-        setProductDetail(res.data);
-      };
+    const navigate = useNavigate();
+    const [image, setImage] = useState('');
 
     useEffect(() => {
-       getOneProduct();
-    },[params.id])
+        axios.get(
+            `http://127.0.0.1:5000/api/v1/product/detail/${params.id}`
+        )
+        .then(res => {
+            setProductDetail(res.data);
+            setImage(res.data.image)
+        })
+        .catch(err => {
+            console.log(err);
+        })
 
+    },[])
     
-
     if(quantity === 0) {
         setQuantity(1);
     }
@@ -67,7 +68,7 @@ const ProductDetail = () => {
         <h2 className="product-detail-title">PRODUCT DETAIL</h2>
         <div className="product-detail-container">
             <div className="product-detail-image">
-                <img src={`http://127.0.0.1:5000/public/images/${productDetail.image}`} alt={productDetail.title} />
+                <img src={(image === '') ? (``) : (`http://127.0.0.1:5000/public/images/${image}`)} alt="product-detail" />
             </div>
             <div className="product-detail-info">
                 <div className="product-title">
@@ -87,9 +88,9 @@ const ProductDetail = () => {
                 </div>
                 <div className="product-quantity">
                     <div className="choose-quantity">
-                        <DoDisturbOnRoundedIcon  className="product-up-down" onClick={handleDown}/>
-                        <input type="number" value={quantity} onChange={(e) => setQuantity(e.target.value)}/>
-                        <ControlPointIcon className="product-up-down" onClick={handleUp}/>
+                        <DoDisturbOnRoundedIcon  className="product-up-down-btn" onClick={handleDown}/>
+                        <input type="number" value={quantity} onChange={(e) => setQuantity(e.target.value)} disabled/>
+                        <ControlPointIcon className="product-up-down-btn" onClick={handleUp}/>
                     </div>
                 </div>
                 <div className="product-action">

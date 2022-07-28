@@ -38,8 +38,9 @@
 .product-cart-delete:hover {
     color: red;
 }
-/* .product-cart-action {
-    position: sticky;
-    top: 200px;
-    width: 15%;
-} */
+.product-up-down {
+    padding: 5px 10px;
+    font-size: 20px;
+    border-radius: 50%;
+    margin: 10px;
+}

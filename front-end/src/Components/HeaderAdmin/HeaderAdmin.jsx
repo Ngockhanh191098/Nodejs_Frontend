@@ -13,10 +13,7 @@ const HeaderAdmin = () => {
     const username = localStorage.getItem('username');
     const avatar = localStorage.getItem('avatar')
     const handleLogout = () => {
-        localStorage.removeItem('token');
-        localStorage.removeItem('role');
-        localStorage.removeItem('username');
-        localStorage.removeItem('avatar');
+        localStorage.clear();
         setRole("");
         toast.success('Logout successfully');
         return navigate('/')

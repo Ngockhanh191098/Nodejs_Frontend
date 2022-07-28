@@ -37,24 +37,6 @@ const Header = (props) => {
         .catch(err => {
             console.log(err);
         });
-
-        // if(idUser) {
-        //     axios.get(
-        //         `http://127.0.0.1:5000/api/v1/cart/${idUser}`,{
-        //             headers: {
-        //                 "Content-Type": "Application/json",
-        //                 "x-access-token": localStorage.getItem('token')
-        //                 }
-        //     })
-        //     .then(res => {
-        //         localStorage.setItem('countItem', res.data.countItem);
-        //         setProductInCart(res.data.items || []);
-        //         setNumberBadge(res.data.countItem);
-        //     })
-        //     .catch(err => {
-        //         console.log(err.response.data.message);
-        //     })
-        // }
     },[]);
 
 
@@ -81,12 +63,10 @@ const Header = (props) => {
             {(idUser) ? (
                 <div className='cart-item'>
                     <Link className='header-cart' to='/cart'><ShoppingCartIcon className='cart-item' /></Link>
-                    {/* <span className='cart-quantity'>{numberBadge}</span> */}
                 </div>
             ) : (
                 <div className='cart-item'>
                     <Link className='header-cart' to='/login'><ShoppingCartIcon className='cart-item'/></Link>
-                    {/* <span className='cart-quantity'>{numberBadge}</span> */}
                 </div>
             )}
             {(username) ? (

@@ -3,18 +3,12 @@ import { useEffect, useState } from "react";
 import DeleteIcon from '@mui/icons-material/Delete';
 import './cart.css';
 import { toast } from "react-toastify";
-import ControlPointIcon from '@mui/icons-material/ControlPoint';
-import DoDisturbOnRoundedIcon from '@mui/icons-material/DoDisturbOnRounded';
 
 const Cart = () => {
     const idUser = localStorage.getItem("idUser");
     const [defaultQuantity, setDefaultQuantity] = useState(1);
     const [listProductInCart, setListProductInCart] = useState([]);
-    const [count, setCount] = useState(0);
-    const arrIdProduct = [];
-    const [arr,setArr] = useState([]);
     const [isDelete, setIsDelete] = useState(false);
-    // console.log(arr);
     
     const handleDelete = (idProduct) => {
         axios.delete(
@@ -42,7 +36,12 @@ const Cart = () => {
                         }
             })
             .then(res => {
-                setListProductInCart(res.data.items || []);
+                let results = res.data.items || [];
+                results = results.map(item => {
+                    item.qty = 1;
+                    return item;
+                })
+                setListProductInCart(results);
             })
             .catch(err => {
                 console.log(err.response.data.message);
@@ -57,19 +56,41 @@ const Cart = () => {
         setDefaultQuantity(1);
     }
 
-    const handleDown = () => {
-        setDefaultQuantity(defaultQuantity - 1);
+    const handleDown = (productId) => {
+        const results = listProductInCart.map((item) => {
+            const currentQty = item.qty;
+
+            let updatedItem = {...item};
+
+            if (item.productId === productId) {
+                updatedItem.qty = currentQty - 1;
+            }
+            return updatedItem;
+        });
+
+        setListProductInCart(results);
     }
 
-    const handleUp = (id) => { 
-        setDefaultQuantity(defaultQuantity + 1);
+    const handleUp = (productId) => {
+        const results = listProductInCart.map((item) => {
+            const currentQty = item.qty;
+            let updatedItem = {...item};
+
+            if (item.productId === productId) {
+                updatedItem.qty = currentQty + 1;
+            }
+            
+            return updatedItem;
+        });
+
+        setListProductInCart(results);
     };
 
 
     return ( 
         <div className="product-cart-container">
                 <div className="product-cart">
-                {listProductInCart.map((product) => {
+                {listProductInCart.map((product, idx) => {
                 return (
                         <div className="product-cart-info"  key={product.cartId}>
                             <div className="cart-procduct-image">
@@ -90,19 +111,26 @@ const Cart = () => {
                             <div className="product-cart-quantity">
                                 <h4>Quantity</h4>
                                 <div className="quantity-change">
-                                <DoDisturbOnRoundedIcon  className="product-up-down" onClick={() => handleDown(product.cartId)}/>
-                                    <input 
-                                        type="text" 
-                                        maxLength={3} 
-                                        value={defaultQuantity} 
-                                        onChange={() => handleChange(product.id)}
-                                    />
-                                    <ControlPointIcon className="product-up-down" onClick={() => handleUp(product.cartId)}/>
+                                <button className="product-up-down" 
+                                    onClick={() => handleDown(product.productId)} type='button' disabled={product.qty === 1}>
+                                        -
+                                </button>
+
+                                <input 
+                                    type="text" 
+                                    maxLength={3} 
+                                    value={product.qty}
+                                    onChange={() => handleChange(product.id)}
+                                />
+                                <button className="product-up-down" 
+                                    onClick={() => handleUp(product.productId)} type='button'>
+                                        +
+                                </button>
                                 </div>
                             </div>
                             <div className="product-cart-size">
                                 <h4>Total</h4>
-                                <p>{product.price * defaultQuantity}</p>
+                                <p>{product.price * product.qty}</p>
                             </div>
                             <div className="product-cart-delete">
                                 <DeleteIcon onClick={() => handleDelete(product.cartId)}/>

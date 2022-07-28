@@ -1,13 +1,10 @@
 import { Link, useNavigate } from "react-router-dom";
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import './productCart.css';
-// import { useContext } from "react";
-// import UserContext from "../../Contexts/UserContext";
 import axios from "axios";
 import { toast } from "react-toastify";
 
 const ProductCart = (props) => {
-    // const {setProduct} = useContext(UserContext);
     const {id, title, price, size, image } = props;
     const idUser = localStorage.getItem('idUser');
     const username = localStorage.getItem('username');
@@ -33,19 +30,6 @@ const ProductCart = (props) => {
             console.log(err);
         })
     }
-
-    // const getIdProduct = (id) => {
-    //     async function getData(){
-    //         const response = await axios.get(`http://127.0.0.1:5000/api/v1/product/detail/${id}`)
-    //         return response;
-    //     };
-    //     getData().then(response => {
-    //         setProduct(response.data)
-    //     })
-    //     getData().catch(err => {
-    //         console.log(err);
-    //     })
-    // }
 
     const handleBuyProduct = () => {
         if(!username) {

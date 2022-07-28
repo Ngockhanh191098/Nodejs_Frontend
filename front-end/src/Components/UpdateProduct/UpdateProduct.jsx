@@ -1,18 +1,38 @@
 // import { useState } from "react";
 
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
 const UpdateProduct = (props) => {
     const { categories, setAppendFormUpdate, idProduct, isAction, setIsAction } = props;
-
     const [title, setTitle] = useState('');
     const [price, setPrice] = useState('');
     const [size, setSize] = useState('S');
     const [image, setImage] = useState(null);
     const [description, setDescription] = useState('');
     const [category, setCategory] = useState();
+
+    useEffect(() => {
+        if(idProduct !== 0) {
+            axios.get(
+                `http://127.0.0.1:5000/api/v1/product/${idProduct}`,{
+                    headers: {
+                        "x-access-token": localStorage.getItem('token')
+                    }
+            })
+            .then(res => {
+                setTitle(res.data.title);
+                setPrice(res.data.price);
+                setDescription(res.data.description);
+                setImage(res.data.image);
+            })
+            .catch(err => {
+                console.log(err);
+            })
+    
+        }
+    }, [idProduct])
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -44,11 +64,21 @@ const UpdateProduct = (props) => {
                 <h3>UPDATE PRODUCT</h3>
                     <div className="form-group">
                         <label className="label">Title</label>
-                        <input type="text" onChange={(e) => setTitle(e.target.value)} required/>
+                        <input 
+                            type="text" 
+                            value={title}
+                            onChange={(e) => setTitle(e.target.value)} 
+                            required
+                        />
                     </div>
                     <div className="form-group">
                         <label className="label">Price</label>
-                        <input type="text" onChange={(e) => setPrice(e.target.value)} required/>
+                        <input 
+                            type="text" 
+                            value={price}
+                            onChange={(e) => setPrice(e.target.value)} 
+                            required
+                        />
                     </div>
                     <div className="form-group">
                     <label className="label">Size</label>
@@ -61,11 +91,20 @@ const UpdateProduct = (props) => {
                 </div>
                     <div className="form-group">
                         <label className="label">Image</label>
-                        <input type="file" onChange={(e) => setImage(e.target.files[0])} required/>
+                        <input 
+                            type="file" 
+                            onChange={(e) => setImage(e.target.files[0])} 
+                            required
+                        />
                     </div>
                     <div className="form-group">
                         <label className="label">Description</label>
-                        <input type="text" onChange={(e) => setDescription(e.target.value)} required/>
+                        <input 
+                            type="text" 
+                            value={description}
+                            onChange={(e) => setDescription(e.target.value)} 
+                            required
+                        />
                     </div>
                     <div className="form-group">
                         <label className="label">Category</label>

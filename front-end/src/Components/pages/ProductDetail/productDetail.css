@@ -55,8 +55,9 @@
     font-size: 20px;
     font-weight: 500;
 }
-.product-up-down {
+.product-up-down-btn {
     cursor: pointer;
+    font-size: 35px;
 }
 .product-up-down:hover {
     color: red;
@@ -75,4 +76,9 @@
 }
 .product-action .checkout-btn:hover {
     background-color: rgb(252, 252, 25);
+}
+.choose-quantity input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
