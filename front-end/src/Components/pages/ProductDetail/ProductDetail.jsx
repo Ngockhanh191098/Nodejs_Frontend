@@ -1,12 +1,11 @@
 
 import { useState } from "react";
-import ControlPointIcon from '@mui/icons-material/ControlPoint';
-import DoDisturbOnRoundedIcon from '@mui/icons-material/DoDisturbOnRounded';
 import './productDetail.css';
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect } from "react";
+import { CartAPI, ImageAPI, ProductAPI } from "../../../API/API";
 
 const ProductDetail = () => {
     const params = useParams();
@@ -19,7 +18,7 @@ const ProductDetail = () => {
 
     useEffect(() => {
         axios.get(
-            `http://127.0.0.1:5000/api/v1/product/detail/${params.id}`
+            `${ProductAPI.PRODUCT_API}/detail/${params.id}`
         )
         .then(res => {
             setProductDetail(res.data);
@@ -34,13 +33,6 @@ const ProductDetail = () => {
     if(quantity === 0) {
         setQuantity(1);
     }
-    const handleDown = () => {
-        setQuantity(quantity - 1);
-    }
-
-    const handleUp = () => {
-        setQuantity(quantity + 1);
-    };
 
     const handleAddCart = (id) => {
         if(!username) {
@@ -50,13 +42,15 @@ const ProductDetail = () => {
             idProduct: id
         }
         axios.post(
-            `http://127.0.0.1:5000/api/v1/cart/${idUser}`,data,{
+            `${CartAPI.CART_API}/${idUser}`,data,{
                 headers: {
                     "x-access-token": localStorage.getItem('token')
                     }
         })
         .then(res => {
-            toast.success(res.data.message);
+            toast.success(res.data.message,{
+                position: toast.POSITION.TOP_CENTER
+              });
         })
         .catch(err => {
             console.log(err);
@@ -68,7 +62,7 @@ const ProductDetail = () => {
         <h2 className="product-detail-title">PRODUCT DETAIL</h2>
         <div className="product-detail-container">
             <div className="product-detail-image">
-                <img src={(image === '') ? (``) : (`http://127.0.0.1:5000/public/images/${image}`)} alt="product-detail" />
+                <img src={(image === '') ? (``) : (`${ImageAPI.IMAGE_API}/${image}`)} alt="product-detail" />
             </div>
             <div className="product-detail-info">
                 <div className="product-title">
@@ -87,11 +81,6 @@ const ProductDetail = () => {
                     <h3>{productDetail.description}</h3>
                 </div>
                 <div className="product-quantity">
-                    <div className="choose-quantity">
-                        <DoDisturbOnRoundedIcon  className="product-up-down-btn" onClick={handleDown}/>
-                        <input type="number" value={quantity} onChange={(e) => setQuantity(e.target.value)} disabled/>
-                        <ControlPointIcon className="product-up-down-btn" onClick={handleUp}/>
-                    </div>
                 </div>
                 <div className="product-action">
                     <button className="checkout-btn">Buy Now</button>

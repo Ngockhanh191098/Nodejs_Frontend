@@ -24,11 +24,13 @@ import Cart from "./Components/pages/Cart/Cart";
 import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import Checkout from "./Components/pages/Checkout/Checkout";
+import OrderManager from "./Components/pages/OrderManager/OrderManager";
 const App = () => {
     const [user, setUser] = useState({});
     const [idCategory, setIdCategory] = useState(0);
     const [searchKey, setSearchKey] = useState('');
     const isAdmin = localStorage.getItem('role');
+    const [userCheckout, setUserCheckout] = useState({})
 
     return ( 
         <UserContext.Provider value={{setUser, isAdmin, user}}>
@@ -50,18 +52,19 @@ const App = () => {
                     <Route path='/login' element={<Login />}></Route>
                     <Route path='/product-manager' element={<ProductManager />}></Route>
                     <Route path='/category/product' element={<ProductCate idCategory={idCategory}/>}></Route>
-                    <Route path='/manager-account' element={<ManagerAccount />}></Route>
+                    <Route path='/account-manager' element={<ManagerAccount />}></Route>
                     <Route path='/reset/:tempToken' element={<Reset />}></Route>
                     <Route path='/search' element={<SearchProduct searchKey={searchKey}/>}></Route>
                     <Route path='/category-manager' element={<CategoryManager />}></Route>
                     <Route path='/customer-manager' element={<CustomerManager />}></Route>
-                    <Route path='/cart' element={<Cart />}></Route>
-                    <Route path='/checkout' element={<Checkout />}></Route>
+                    <Route path='/cart' element={<Cart setUserCheckout={setUserCheckout} />}></Route>
+                    <Route path='/checkout' element={<Checkout userCheckout={userCheckout}/>}></Route>
                     <Route path='/product-detail/:id' element={<ProductDetail/>}></Route>
+                    <Route path='/order-manager' element={<OrderManager/>}></Route>
                 </Routes>
                 <Footer />
             </Router>
-            <ToastContainer />
+            <ToastContainer autoClose={1000} pauseOnFocusLoss={false} width={500}/>
         </UserContext.Provider>
      );
 }

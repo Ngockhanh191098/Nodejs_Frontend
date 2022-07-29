@@ -1,9 +1,7 @@
 import axios from "axios";
 import { useState } from "react";
 import { toast } from "react-toastify";
-import {v4} from 'uuid';
-
-
+import { ProductAPI } from "../../API/API";
 
 const FormAddProduct = (props) => {
 
@@ -26,19 +24,23 @@ const FormAddProduct = (props) => {
         formData.append('description', description);
         formData.append('categoryId', category);
 
-        axios.post('http://127.0.0.1:5000/api/v1/product',formData,{
+        axios.post(`${ProductAPI.PRODUCT_API}`,formData,{
             headers: {
                 "Content-Type": "multipart/form-data",
                 "x-access-token": localStorage.getItem('token')
             }
         })
         .then(res => {
-            toast.success(res.data.message);
+            toast.success(res.data.message,{
+                position: toast.POSITION.TOP_CENTER
+              });
             setAppenForm(false);
             setIsAction(!isAction);
         })
         .catch(err => {
-            toast.error(err.response.data.message)
+            toast.error(err.response.data.message,{
+                position: toast.POSITION.TOP_CENTER
+              })
         })
     }
 

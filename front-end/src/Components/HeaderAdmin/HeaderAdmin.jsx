@@ -15,7 +15,9 @@ const HeaderAdmin = () => {
     const handleLogout = () => {
         localStorage.clear();
         setRole("");
-        toast.success('Logout successfully');
+        toast.success('Logout successfully',{
+            position: toast.POSITION.TOP_CENTER
+          });
         return navigate('/')
     }
 
@@ -29,9 +31,9 @@ const HeaderAdmin = () => {
             <h2>ADMIN PAGE</h2>
             <div className="admin-account">
                 <img src={`http://127.0.0.1:5000/public/images/${avatar}`} alt="avatar" />
-                <Link to="/manager-account" className='username'>{username}</Link>
+                <Link to="/account-manager" className='username'>{username}</Link>
                 <div className='manager-account-admin'>
-                        <p><Link to='/info-user' className='my-account'>My Account</Link></p>
+                        <p><Link to='/account-manager' className='my-account'>My Account</Link></p>
                         <p><Link to='/' onClick={handleLogout} className='my-account'>Logout</Link></p>
                 </div>
             </div>

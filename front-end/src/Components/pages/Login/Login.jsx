@@ -5,6 +5,7 @@ import axios from 'axios';
 import { Link, useNavigate } from "react-router-dom";
 import UserContext from "../../../Contexts/UserContext";
 import { toast } from "react-toastify";
+import { AccountAPI, AuthAPI } from "../../../API/API";
 
 const Login = () => {
 
@@ -23,11 +24,10 @@ const Login = () => {
     const handleSubbmit = (e) => {
         e.preventDefault();
         axios.post(
-            "http://127.0.0.1:5000/api/v1/auth/signin",
+            `${AuthAPI.AUTH_API}/signin`,
             dataLogin
         )
         .then(res => {
-            toast.success(res.data.message)
             const token = res.data.accessToken;
             const role = res.data.role;
             const username = res.data.username;
@@ -39,11 +39,15 @@ const Login = () => {
             localStorage.setItem("username", username)
             localStorage.setItem("idUser", idUser)
             setUser(res.data);
-            toast.success("Login successfully!")
+            toast.success("Login successfully!",{
+                position: toast.POSITION.TOP_CENTER
+              })
             return navigate('/')
         })
         .catch(err => {
-            toast.error(err.response.data.message)
+            toast.error(err.response.data.message,{
+                position: toast.POSITION.TOP_CENTER
+              })
         });
     };
 
@@ -58,14 +62,18 @@ const Login = () => {
     }
     const handleSendEmail = () => {
         axios.post(
-            'http://127.0.0.1:5000/api/v1/account/forgotpass',
+            `${AccountAPI.ACCOUNT_API}/forgotpass`,
             data
         )
         .then(res => {
-            toast.success(res.data.message);
+            toast.success(res.data.message,{
+                position: toast.POSITION.TOP_CENTER
+              });
         })
         .catch(err => {
-            toast.error(err.response.data.message);
+            toast.error(err.response.data.message,{
+                position: toast.POSITION.TOP_CENTER
+              });
         })
     }
     
@@ -73,13 +81,13 @@ const Login = () => {
         <div className="container">
                 {(!isForgot) ? (
                 <>
-                    <form className="form-container" onSubmit={handleSubbmit}>
+                    <form className="form-register-container" onSubmit={handleSubbmit}>
                     <h2>FORM LOGIN</h2>
-                    <div className="form-group">
+                    <div className="form-group-register">
                         <label>Username</label>
                         <input type="text" onChange={(e) => setUsername(e.target.value)} placeholder="Enter your username" required/>
                     </div>
-                    <div className="form-group">
+                    <div className="form-group-register">
                         <label>Password</label>
                         <input type="password" onChange={(e) => setPassword(e.target.value)} placeholder="Enter your Password" required/>
                     </div>

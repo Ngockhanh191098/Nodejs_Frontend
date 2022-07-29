@@ -3,6 +3,7 @@ import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import './productCart.css';
 import axios from "axios";
 import { toast } from "react-toastify";
+import { CartAPI, ImageAPI } from "../../API/API";
 
 const ProductCart = (props) => {
     const {id, title, price, size, image } = props;
@@ -18,24 +19,40 @@ const ProductCart = (props) => {
             idProduct: id
         }
         axios.post(
-            `http://127.0.0.1:5000/api/v1/cart/${idUser}`,data,{
+            `${CartAPI.CART_API}/${idUser}`,data,{
                 headers: {
                     "x-access-token": localStorage.getItem('token')
                     }
         })
         .then(res => {
-            toast.success(res.data.message);
+            toast.success(res.data.message,{
+                position: toast.POSITION.TOP_CENTER
+              });
         })
         .catch(err => {
             console.log(err);
         })
     }
 
-    const handleBuyProduct = () => {
+    const handleBuyProduct = (id) => {
         if(!username) {
             return navigate('/login')
         }
-        return navigate('/checkout')
+        const data = {
+            idProduct: id
+        }
+        axios.post(
+            `${CartAPI.CART_API}/${idUser}`,data,{
+                headers: {
+                    "x-access-token": localStorage.getItem('token')
+                    }
+        })
+        .then(res => {
+            return navigate('/cart')
+        })
+        .catch(err => {
+            toast.error(err.response.data.message);
+        })
     }
 
     return ( 
@@ -43,7 +60,7 @@ const ProductCart = (props) => {
             <section className="dog-cart-container">
                 <div className="dog-img">
                     <Link to={`/product-detail/${id}`}>
-                        <img src={`http://127.0.0.1:5000/public/images/${image}`} alt={title}/>
+                        <img src={`${ImageAPI.IMAGE_API}/${image}`} alt={title}/>
                     </Link>
                 </div>
                 <div className="dog-info">
@@ -55,7 +72,7 @@ const ProductCart = (props) => {
                 </div>
                 <div className="add-buy">
                     <AddShoppingCartIcon className="add-cart" onClick={() => handleAddCart(id)}/>
-                    <button className="buy-now" onClick={handleBuyProduct}>BUY NOW</button>
+                    <button className="buy-now" onClick={() => handleBuyProduct(id)}>BUY NOW</button>
                 </div>
             </section>
         </>

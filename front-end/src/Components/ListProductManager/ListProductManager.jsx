@@ -7,7 +7,6 @@ import CloseIcon from '@mui/icons-material/Close';
 import FormAddProduct from "../FormAddProduct/FormAddProduct";
 import Pagination from "../Pagination/Pagination";
 import UpdateProduct from "../UpdateProduct/UpdateProduct";
-import axios from "axios";
 
 const ListProduct = (props) => {
     const {categories, listProduct, count, limit, setListProduct, isAction, setIsAction } = props;

@@ -2,6 +2,7 @@ import axios from 'axios';
 import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { AccountAPI } from '../../../API/API';
 import './reset.css';
 
 const Reset = () => {
@@ -9,7 +10,6 @@ const Reset = () => {
     const param = useParams(); 
     const token = param.tempToken;
     const navigate = useNavigate();
-    const idUser = localStorage.getItem('idUser');
     const [newPassword, setNewPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
 
@@ -22,16 +22,21 @@ const Reset = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         axios.put(
-            `http://127.0.0.1:5000/api/v1/account/reset`,
+            `${AccountAPI.ACCOUNT_API}/reset`,
             newPass
         )
         .then(res => {
-            toast.success(res.data.message);
+            toast.success(res.data.message,{
+                position: toast.POSITION.TOP_CENTER
+              });
             localStorage.removeItem("idUser");
             return navigate('/');
         })
         .catch(err => {
-            toast.error(err.response.data.message);
+            toast.error(err.response.data.message,{
+                position: toast.POSITION.TOP_CENTER
+              });
+            return;
         })
     }
     return ( 

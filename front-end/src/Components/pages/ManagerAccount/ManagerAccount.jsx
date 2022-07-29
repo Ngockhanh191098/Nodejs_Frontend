@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import './managerAccount.css';
 import CloseIcon from '@mui/icons-material/Close';
 import { toast } from "react-toastify";
+import { UserAPI } from "../../../API/API";
 
 const ManagerAccount = () => {
 
@@ -16,11 +17,12 @@ const ManagerAccount = () => {
     const [formErrors, setFormErrors] = useState({})
     const [isSubmit, setIsSubmit] = useState(false)
     const [formChangePass, setFormChangePass] = useState(false)
+    const role = localStorage.getItem('role')
 
-    const username = localStorage.getItem('username');
+    const idUser = localStorage.getItem('idUser');
     useEffect(() => {
         axios.get(
-            `http://127.0.0.1:5000/api/v1/user/${username}`,{
+            `${UserAPI.USER_API}/${idUser}`,{
                 headers: {
                     "Content-Type": "application/json",
                     "x-access-token": localStorage.getItem('token')
@@ -41,7 +43,7 @@ const ManagerAccount = () => {
                         newPassword: formValues.newPassword
                     }
                     axios.put(
-                        `http://127.0.0.1:5000/api/v1/user?username=${username}`,
+                        `${UserAPI.USER_API}/changepass/${idUser}`,
                         dataChange,{
                             headers: {
                                 "Content-Type": "application/json",
@@ -50,13 +52,17 @@ const ManagerAccount = () => {
                         }
                     )
                     .then(res => {
-                        toast.success(res.data.message);
+                        toast.success(res.data.message,{
+                            position: toast.POSITION.TOP_CENTER
+                          });
                         return navigate('/')
                     })
                     .catch(err => {
                         console.log(err);
                         if(err.response.status === 400) {
-                            toast.error(err.response.data.message)
+                            toast.error(err.response.data.message,{
+                                position: toast.POSITION.TOP_CENTER
+                              })
                         }
                     })
         }
@@ -147,14 +153,31 @@ const ManagerAccount = () => {
             ) : (
                <>
                     <div className="account-avatar">
-                        <img src={`http://127.0.0.1:5000/public/images/${account.avatar}`} alt={account.avatar} />
+                        <img src={((account.avatar) === undefined) ? (``) : (`http://127.0.0.1:5000/public/images/${account.avatar}`)} alt={account.avatar} />
                         <button className="change-avt">Change Avatar</button>
                     </div>
                     <div className="account-info-action">
-                        <div className="account-info"><strong>Username: </strong><span>{account.username}</span></div>
-                        <div className="account-info"><strong>Email: </strong><span>{account.email}</span></div>
-                        <button className="account-action" onClick={handleChangePass}>Change Password</button>
-                        <button className="account-action">My Order</button>
+                        {(role === 'admin') ? (
+                            <>
+                                <div className="account-info"><strong>Full Name: </strong><span>{account.fullName}</span></div>
+                                <div className="account-info"><strong>Username: </strong><span>{account.username}</span></div>
+                                <div className="account-info"><strong>Email: </strong><span>{account.email}</span></div>
+                                <div className="account-info"><strong>Phone: </strong><span>{account.phone}</span></div>
+                                <div className="account-info"><strong>Address: </strong><span>{account.address}</span></div>
+                                <button className="account-action" onClick={handleChangePass}>Change Password</button>
+                            </>
+                        ) : (
+                            <>
+                                <div className="account-info"><strong>Full Name: </strong><span>{account.fullName}</span></div>
+                                <div className="account-info"><strong>Username: </strong><span>{account.username}</span></div>
+                                <div className="account-info"><strong>Email: </strong><span>{account.email}</span></div>
+                                <div className="account-info"><strong>Phone: </strong><span>{account.phone}</span></div>
+                                <div className="account-info"><strong>Address: </strong><span>{account.address}</span></div>
+                                <button className="account-action" onClick={handleChangePass}>Change Password</button>
+                                <button className="account-action">My Order</button>
+                            </>
+                        )}
+                        
                     </div>
                </>
             )}

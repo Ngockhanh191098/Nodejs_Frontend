@@ -3,6 +3,7 @@ import './productManager.css';
 import Axios from 'axios';
 import { useEffect, useState } from 'react';
 import ListProductManager from '../../ListProductManager/ListProductManager';
+import { CategoryAPI, ProductAPI } from '../../../API/API';
 const Product = (props) => {
     const { setIdProduct } = props;
 
@@ -17,7 +18,7 @@ const Product = (props) => {
     useEffect(() => {
         async function getCategory() {
             const res = await Axios.get(
-                "http://127.0.0.1:5000/api/v1/category",{
+                `${CategoryAPI.CATEGORY_API}`,{
                     headers: {
                         "Content-Type": "application/json",
                         "x-access-token": localStorage.getItem('token')
@@ -33,7 +34,7 @@ const Product = (props) => {
 
         if (idCategory === 0) {
             Axios.get(
-                "http://127.0.0.1:5000/api/v1/product?offset=0&limit=8",{
+                `${ProductAPI.PRODUCT_API}?offset=0&limit=8`,{
                     headers: {
                         "x-access-token": localStorage.getItem('token')
                         }
@@ -49,7 +50,7 @@ const Product = (props) => {
 
         if (searchKey === '') {
             Axios.get(
-                `http://127.0.0.1:5000/api/v1/product/category/${idCategory}`
+                `${ProductAPI.PRODUCT_API}/category/${idCategory}`
             )
             .then(res => {
                 setListProduct(res.data);
@@ -59,7 +60,7 @@ const Product = (props) => {
             })
         }else {
             Axios.get(
-                `http://127.0.0.1:5000/api/v1/product/search?key=${searchKey}`
+                `${ProductAPI.PRODUCT_API}/search?key=${searchKey}`
             )
             .then(res => {
                 setListProduct(res.data);

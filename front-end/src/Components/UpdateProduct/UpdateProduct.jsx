@@ -1,8 +1,8 @@
-// import { useState } from "react";
 
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
+import { ProductAPI } from "../../API/API";
 
 const UpdateProduct = (props) => {
     const { categories, setAppendFormUpdate, idProduct, isAction, setIsAction } = props;
@@ -11,12 +11,12 @@ const UpdateProduct = (props) => {
     const [size, setSize] = useState('S');
     const [image, setImage] = useState(null);
     const [description, setDescription] = useState('');
-    const [category, setCategory] = useState();
+    const [category, setCategory] = useState(1);
 
     useEffect(() => {
         if(idProduct !== 0) {
             axios.get(
-                `http://127.0.0.1:5000/api/v1/product/${idProduct}`,{
+                `${ProductAPI.PRODUCT_API}/${idProduct}`,{
                     headers: {
                         "x-access-token": localStorage.getItem('token')
                     }
@@ -44,14 +44,16 @@ const UpdateProduct = (props) => {
         formData.append('description', description);
         formData.append('categoryId', category);
 
-        axios.put(`http://127.0.0.1:5000/api/v1/product/${idProduct}`,formData,{
+        axios.put(`${ProductAPI.PRODUCT_API}/${idProduct}`,formData,{
             headers: {
                 "Content-Type": "multipart/form-data",
                 "x-access-token": localStorage.getItem('token')
             }
         })
         .then(res => {
-            toast.success(res.data.message)
+            toast.success(res.data.message,{
+                position: toast.POSITION.TOP_CENTER
+              })
             setAppendFormUpdate(false);
             setIsAction(!isAction);
         })

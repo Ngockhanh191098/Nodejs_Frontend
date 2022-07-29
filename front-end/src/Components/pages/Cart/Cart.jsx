@@ -3,33 +3,42 @@ import { useEffect, useState } from "react";
 import DeleteIcon from '@mui/icons-material/Delete';
 import './cart.css';
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+import { CartAPI } from "../../../API/API";
 
 const Cart = () => {
     const idUser = localStorage.getItem("idUser");
     const [defaultQuantity, setDefaultQuantity] = useState(1);
     const [listProductInCart, setListProductInCart] = useState([]);
-    const [isDelete, setIsDelete] = useState(false);
+    const [isAction, setIsAction] = useState(false);
+    const [userEmail, setUserEmail] = useState('');
+    const navigate = useNavigate();
+    console.log(listProductInCart);
     
     const handleDelete = (idProduct) => {
         axios.delete(
-            `http://127.0.0.1:5000/api/v1/cart/${idProduct}`,{
+            `${CartAPI.CART_API}/${idProduct}`,{
                 headers: {
                     "Content-Type": "Application/json",
                     "x-access-token": localStorage.getItem('token')
                 }
         })
         .then(res => {
-            toast.success(res.data.message);
-            setIsDelete(!isDelete);
+            toast.success(res.data.message,{
+                position: toast.POSITION.TOP_CENTER
+              });
+            setIsAction(!isAction);
         })
         .catch(err => {
-            toast.error(err.response.data.message);
+            toast.error(err.response.data.message,{
+                position: toast.POSITION.TOP_CENTER
+              });
         })
     }
     
     useEffect(() => {
             axios.get(
-                `http://127.0.0.1:5000/api/v1/cart/${idUser}`,{
+                `${CartAPI.CART_API}/${idUser}`,{
                     headers: {
                         "Content-Type": "Application/json",
                         "x-access-token": localStorage.getItem('token')
@@ -42,18 +51,16 @@ const Cart = () => {
                     return item;
                 })
                 setListProductInCart(results);
+                setUserEmail(res.data.email)
             })
             .catch(err => {
                 console.log(err.response.data.message);
             })
-    },[isDelete]);
 
-    const handleChange = (e,id) => {
+    },[isAction]);
+
+    const handleChange = (e) => {
         setDefaultQuantity(e.target.value)
-    }
-
-    if(defaultQuantity === 0) {
-        setDefaultQuantity(1);
     }
 
     const handleDown = (productId) => {
@@ -67,8 +74,13 @@ const Cart = () => {
             }
             return updatedItem;
         });
-
         setListProductInCart(results);
+        let arrs = [];
+            listProductInCart.map(item => {
+                let sum = item.price * item.qty;
+                arrs.push(sum)
+            })
+        console.log(arrs);
     }
 
     const handleUp = (productId) => {
@@ -79,16 +91,53 @@ const Cart = () => {
             if (item.productId === productId) {
                 updatedItem.qty = currentQty + 1;
             }
-            
             return updatedItem;
         });
-
         setListProductInCart(results);
-    };
+        };
 
+        var arrs = [];
+            listProductInCart.map(item => {
+                let sum = item.price * item.qty;
+                arrs.push(sum)
+            })
+        let total = arrs.reduce(function(a,b){
+            return a + b;
+        }, 0)
+
+        var arrItem = [];
+        listProductInCart.map(item => {
+            let itemQty = item.qty;
+            arrItem.push(itemQty)
+        })
+        let totalItems = arrItem.reduce(function(a,b){
+            return a + b;
+        }, 0)
+
+        const handleCheckout = () => {
+            const checkout = {
+                totalItems: totalItems,
+                totalBill: total,
+                listItem: listProductInCart,
+                userEmail: userEmail
+            }
+            localStorage.setItem('checkout', JSON.stringify(checkout))
+            return navigate('/checkout')
+        }
+
+        const handleShopping = () => {
+            return navigate('/');
+        }
 
     return ( 
         <div className="product-cart-container">
+            {(listProductInCart.length === 0) ? (
+                <div className="cart-empty">
+                    <h3>Cart is empty!</h3>
+                    <button onClick={handleShopping}>Shopping Now</button>
+                </div>
+            ) : (
+                <>
                 <div className="product-cart">
                 {listProductInCart.map((product, idx) => {
                 return (
@@ -97,19 +146,11 @@ const Cart = () => {
                                 <img src={`http://127.0.0.1:5000/public/images/${product.image}`} alt={product.title} />
                             </div>
                             <div className="product-cart-title">
-                                <h4>Title</h4>
-                                <p>{product.title}</p>
-                            </div>
-                            <div className="product-cart-price">
-                                <h4>Price</h4>
-                                <p>{product.price}</p>
-                            </div>
-                            <div className="product-cart-size">
-                                <h4>Size</h4>
-                                <p>{product.size}</p>
+                                <h3>{product.title}</h3>
+                                <p>Size: <span>{product.size}</span></p>
+                                <p>Price: <span>{product.price} VND</span></p>
                             </div>
                             <div className="product-cart-quantity">
-                                <h4>Quantity</h4>
                                 <div className="quantity-change">
                                 <button className="product-up-down" 
                                     onClick={() => handleDown(product.productId)} type='button' disabled={product.qty === 1}>
@@ -128,27 +169,37 @@ const Cart = () => {
                                 </button>
                                 </div>
                             </div>
-                            <div className="product-cart-size">
+                            <div className="product-cart-total">
                                 <h4>Total</h4>
-                                <p>{product.price * product.qty}</p>
+                                <p>{product.price * product.qty} VND</p>
                             </div>
                             <div className="product-cart-delete">
                                 <DeleteIcon onClick={() => handleDelete(product.cartId)}/>
                             </div>
                         </div>
+                        
                 )
-              })}  
+              })}
                 </div>
-            <div className="checkout-container">
+                <div className="product-cart-action-container">
+                <div className="total-item">
+                    <h5>Total Items</h5>
+                    <h3>{totalItems}</h3>
+                </div>
                 <div className="total-bill">
-                    <h3>Total Bill</h3>
-                    <h2>{}</h2>
+                    <h5>Total Bill</h5>
+                    <h3>{total} VND</h3>
                 </div>
                 <div className="product-cart-action">
-                    <button>Check Out</button>
+                <button type="button" onClick={handleCheckout}>
+                    Check Out
+                </button>
                 </div>
             </div>
+            </>
+            )}
         </div>
+
      );
 }
  

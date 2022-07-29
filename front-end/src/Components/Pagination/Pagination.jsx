@@ -1,6 +1,7 @@
 
 import Axios from 'axios';
 import { useState } from 'react';
+import { ProductAPI } from '../../API/API';
 import './pagination.css';
 
 const Pagination = (props) => {
@@ -26,7 +27,7 @@ const Pagination = (props) => {
         setIndexActive(e);
         let offSet = e * limit - limit;
 
-        Axios.get(`http://127.0.0.1:5000/api/v1/product?offset=${offSet}&limit=${limit}`,{
+        Axios.get(`${ProductAPI.PRODUCT_API}?offset=${offSet}&limit=${limit}`,{
             headers: {
             "Content-Type": "application/json",
             "x-access-token": localStorage.getItem('token')
@@ -47,7 +48,7 @@ const Pagination = (props) => {
         }else {
             let offSet = (indexActive + 1) * limit - limit;
             setIndexActive(indexActive + 1)
-            Axios.get(`http://127.0.0.1:5000/api/v1/product?offset=${offSet}&limit=${limit}`,{
+            Axios.get(`${ProductAPI.PRODUCT_API}?offset=${offSet}&limit=${limit}`,{
                 headers: {
                 "Content-Type": "application/json",
                 "x-access-token": localStorage.getItem('token')
@@ -70,7 +71,7 @@ const Pagination = (props) => {
         }else {
             let offSet = (indexActive - 1) * limit - limit;
             setIndexActive(indexActive - 1);
-            Axios.get(`http://127.0.0.1:5000/api/v1/product?offset=${offSet}&limit=${limit}`,{
+            Axios.get(`${ProductAPI.PRODUCT_API}?offset=${offSet}&limit=${limit}`,{
                 headers: {
                     "Content-Type": "application/json",
                     "x-access-token": localStorage.getItem('token')

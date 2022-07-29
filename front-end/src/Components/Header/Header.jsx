@@ -7,15 +7,11 @@ import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import NavbarCustomer from '../Navbar/Navbar';
 import axios from 'axios';
-// import CartContext from '../../Contexts/CartContext';
-// import UserContext from '../../Contexts/UserContext';
 import { toast } from 'react-toastify';
-
-
+import { CategoryAPI } from '../../API/API';
 
 const Header = (props) => {
 
-    // const {  numberBadge } = useContext(CartContext)
     const {setIdCategory, setSearchKey} = props;
     const [listCategory, setListCategory] = useState([]);
     const avatar = localStorage.getItem('avatar');
@@ -24,12 +20,14 @@ const Header = (props) => {
     const navigate = useNavigate();
     const handleLogout = () => {
         localStorage.clear();
-        toast.success("Logout Successfully!");
+        toast.success("Logout Successfully!",{
+            position: toast.POSITION.TOP_CENTER
+          });
         return navigate('/');
     }
     useEffect(() => {
         axios.get(
-            "http://127.0.0.1:5000/api/v1/category"
+            `${CategoryAPI.CATEGORY_API}`
         )
         .then(res => {
             setListCategory(res.data);
@@ -73,10 +71,10 @@ const Header = (props) => {
                 <div className='header-account'>
                     <div className='account-info'>
                         <img src={`http://127.0.0.1:5000/public/images/${avatar}`} alt="avatar" />
-                        <Link to="/manager-account" className='username'>{username}</Link>
+                        <Link to="/account-manager" className='username'>{username}</Link>
                     </div>
                     <div className='manager-account'>
-                        <p><Link to='/manager-account' className='my-account'>My Account</Link></p>
+                        <p><Link to='/account-manager' className='my-account'>My Account</Link></p>
                         <p><Link to='/' onClick={handleLogout} className='my-account'>Logout</Link></p>
                     </div>
                 </div>

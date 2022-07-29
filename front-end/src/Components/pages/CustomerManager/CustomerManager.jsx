@@ -6,6 +6,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import './customerManager.css';
 import { toast } from "react-toastify";
+import { UserAPI } from "../../../API/API";
 
 const CustomerManager = () => {
 
@@ -22,7 +23,7 @@ const CustomerManager = () => {
 
     useEffect(() => {
         axios.get(
-            'http://127.0.0.1:5000/api/v1/user',{
+            `${UserAPI.USER_API}`,{
                 headers: {
                     "x-access-token": localStorage.getItem('token')
                 }
@@ -38,23 +39,27 @@ const CustomerManager = () => {
     const handleDelete = (id) => {
 
         axios.delete(
-            `http://127.0.0.1:5000/api/v1/user/${id}`,{
+            `${UserAPI.USER_API}/${id}`,{
                 headers: {
                     "x-access-token": localStorage.getItem('token')
                 }
         })
         .then(res => {
-            toast.success(res.data.message);
+            toast.success(res.data.message,{
+                position: toast.POSITION.TOP_CENTER
+              });
             setIsAction(!isAction)
         })
         .catch(err => {
-            toast.error(err.response.data.message);
+            toast.error(err.response.data.message,{
+                position: toast.POSITION.TOP_CENTER
+              });
         })
     }
 
     const handleAddUser = () => {
         axios.post(
-            'http://127.0.0.1:5000/api/v1/user/',
+            `${UserAPI.USER_API}`,
             newUser,{
                 headers: {
                     "Content-Type":"application/json",
@@ -63,7 +68,9 @@ const CustomerManager = () => {
             }
         )
         .then(res => {
-            toast.success(res.data.message);
+            toast.success(res.data.message,{
+                position: toast.POSITION.TOP_CENTER
+              });
             setIsAction(!isAction)
         })
         .catch(err => {

@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect } from "react";
 import { useState } from "react";
+import { ProductAPI } from "../../../API/API";
 import ListProduct from "../../ListProduct/ListProduct";
 import './searchproduct.css';
 
@@ -11,7 +12,7 @@ const SearchProduct = (props) => {
 
     useEffect(() => {
         axios.get(
-            `http://127.0.0.1:5000/api/v1/product/search?key=${searchKey}`
+            `${ProductAPI.PRODUCT_API}/search?key=${searchKey}`
         )
         .then(res => {
             setListProduct(res.data);

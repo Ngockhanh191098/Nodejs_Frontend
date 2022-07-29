@@ -5,6 +5,7 @@ import './register.css';
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { toast } from "react-toastify";
+import { AuthAPI } from "../../../API/API";
 
 const Register = () => {
     const navigate = useNavigate();
@@ -33,11 +34,13 @@ const Register = () => {
                         password: formValues.password
                     }
                     axios.post(
-                        "http://127.0.0.1:5000/api/v1/auth/signup",
+                        `${AuthAPI.AUTH_API}/signup`,
                         newData
                     )
                     .then(res => {
-                        toast.success('Register success!');
+                        toast.success('Register success!',{
+                            position: toast.POSITION.TOP_CENTER
+                          });
                         return navigate('/login')
                     })
                     .catch(err => toast.error(err.response.data.message))
@@ -72,10 +75,10 @@ const Register = () => {
 
     return ( 
         <div className="container">
-                <form className="form-container" onSubmit={handleSubmit} noValidate>
+                <form className="form-register-container" onSubmit={handleSubmit} noValidate>
                     <h2>FORM REGISTER</h2>
-                    <div className="form-group">
-                        <label>Username</label>
+                    <div className="form-group-register">
+                        <label className="">Username</label>
                         <input 
                             type="text"
                             name="username"  
@@ -85,7 +88,7 @@ const Register = () => {
                         />
                     </div>
                     <p className="error-form">{ formErrors.username }</p>
-                    <div className="form-group">
+                    <div className="form-group-register">
                         <label>Email</label>
                         <input 
                             type="email" 
@@ -96,7 +99,7 @@ const Register = () => {
                         />
                     </div>
                     <p className="error-form">{ formErrors.email }</p>
-                    <div className="form-group">
+                    <div className="form-group-register">
                         <label>Password</label>
                         <input 
                             type="password"
@@ -107,7 +110,7 @@ const Register = () => {
                         />
                     </div>
                     <p className="error-form">{ formErrors.password }</p>
-                    <div className="form-group">
+                    <div className="form-group-register">
                         <label>Confirm Password</label>
                         <input 
                             type="password" 

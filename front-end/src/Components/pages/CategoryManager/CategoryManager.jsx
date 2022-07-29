@@ -4,41 +4,43 @@ import { useEffect } from "react";
 import DeleteIcon from '@mui/icons-material/Delete';
 import './categorymanager.css';
 import { toast } from "react-toastify";
+import { CategoryAPI } from "../../../API/API";
 
 const CategoryManager = () => {
 
-    // const initValue = {name: ""}
     const [listCategory, setListCategory] = useState([]);
     const [idCate, setIdCate] = useState(0);
-    // const [category, setCategory] = useState({});
     const [nameCategory, setNameCategory] = useState('');
     const [isAction, setIsAction] = useState(false);
     const [nameCate, setNameCate] = useState('');
-    // console.log(category.name);
     const dataAdd = {
         name: nameCate
     }
     const handleAddCate = () => {
         // e.preventDefault();
         axios.post(
-            'http://127.0.0.1:5000/api/v1/category',dataAdd,{
+            `${CategoryAPI.CATEGORY_API}`,dataAdd,{
                 headers: {
                     "x-access-token": localStorage.getItem('token')
                 }
         })
         .then(res => {
-            toast.success(res.data.message);
+            toast.success(res.data.message,{
+                position: toast.POSITION.TOP_CENTER
+              });
             setIsAction(!isAction)
         })
         .catch(err => {
-            toast.error(err.response.data.message)
+            toast.error(err.response.data.message,{
+                position: toast.POSITION.TOP_CENTER
+              })
         })
         
     }
 
     useEffect(() => {
         axios.get(
-            `http://127.0.0.1:5000/api/v1/category`
+            `${CategoryAPI.CATEGORY_API}`
         )
         .then(res => {
             setListCategory(res.data);
@@ -50,16 +52,20 @@ const CategoryManager = () => {
 
     const handleDelete = (id) => {
         axios.delete(
-            `http://127.0.0.1:5000/api/v1/category/${id}`,{
+            `${CategoryAPI.CATEGORY_API}/${id}`,{
                 headers: {
                     "x-access-token": localStorage.getItem('token')
                 }
         })
         .then(res => {
-            toast.success(res.data.message);
+            toast.success(res.data.message,{
+                position: toast.POSITION.TOP_CENTER
+              });
             setIsAction(!isAction)
         })
-        .catch(err => toast.error(err.response.data.message))
+        .catch(err => toast.error(err.response.data.message,{
+            position: toast.POSITION.TOP_CENTER
+          }))
     }
 
     const dataUpdate = {
@@ -68,24 +74,28 @@ const CategoryManager = () => {
 
     const handleUpdateCate = () => {
         axios.put(
-            `http://127.0.0.1:5000/api/v1/category/${idCate}`,dataUpdate,{
+            `${CategoryAPI.CATEGORY_API}/${idCate}`,dataUpdate,{
                 headers: {
                     "x-access-token": localStorage.getItem('token')
                 }
         })
         .then(res => {
-            toast.success(res.data.message);
+            toast.success(res.data.message,{
+                position: toast.POSITION.TOP_CENTER
+              });
             setIsAction(!isAction)
         })
         .catch(err => {
-            toast.error(err.response.data.message);
+            toast.error(err.response.data.message,{
+                position: toast.POSITION.TOP_CENTER
+              });
         })
     }
 
     const handleUpdate = (id) => {
         setIdCate(id)
         axios.get(
-            `http://127.0.0.1:5000/api/v1/category/${id}`,{
+            `${CategoryAPI.CATEGORY_API}/${id}`,{
                 headers: {
                     "x-access-token": localStorage.getItem('token')
                 }

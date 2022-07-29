@@ -6,9 +6,8 @@ const NavbarCustomer = (props) => {
 
     const navigate = useNavigate();
 
-    const handleClick = (id,name) => {
+    const handleClick = (id) => {
         setIdCategory(id);
-        const nameCate = name.toLowerCase()
         navigate(`/category/product`)
     }
 
@@ -17,7 +16,7 @@ const NavbarCustomer = (props) => {
             {listCategory.map((category, index) => {
                 
                 return (
-                    <li onClick={() => handleClick(category.id, category.name)} key={index} className="list-category">{category.name}</li>
+                    <li onClick={() => handleClick(category.id)} key={index} className="list-category">{category.name}</li>
                 )
             })}
         </ul>
