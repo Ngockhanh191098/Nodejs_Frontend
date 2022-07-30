@@ -29,10 +29,6 @@ const ProductDetail = () => {
         })
 
     },[])
-    
-    if(quantity === 0) {
-        setQuantity(1);
-    }
 
     const handleAddCart = (id) => {
         if(!username) {
@@ -57,6 +53,27 @@ const ProductDetail = () => {
         })
     }
 
+    const handleBuy = (id) => {
+        if(!username) {
+            return navigate('/login')
+        }
+        const data = {
+            idProduct: id
+        }
+        axios.post(
+            `${CartAPI.CART_API}/${idUser}`,data,{
+                headers: {
+                    "x-access-token": localStorage.getItem('token')
+                    }
+        })
+        .then(res => {
+            return navigate('/cart')
+        })
+        .catch(err => {
+            toast.error(err.response.data.message);
+        })
+    }
+
     return ( 
         <>
         <h2 className="product-detail-title">PRODUCT DETAIL</h2>
@@ -70,7 +87,7 @@ const ProductDetail = () => {
                 </div>
                 <div className="product-price">
                     <p>Price: </p>
-                    <h3>{productDetail.price} VND</h3>
+                    <h3><strong>{productDetail.price} $</strong></h3>
                 </div>
                 <div className="product-size">
                     <p>Size: </p>
@@ -83,7 +100,7 @@ const ProductDetail = () => {
                 <div className="product-quantity">
                 </div>
                 <div className="product-action">
-                    <button className="checkout-btn">Buy Now</button>
+                    <button className="checkout-btn" onClick={() => handleBuy(productDetail.id)}>Buy Now</button>
                     <button className="add-to-cart-btn" onClick={() => handleAddCart(productDetail.id)}>Add To Cart</button>
                 </div>
             </div>

@@ -75,12 +75,6 @@ const Cart = () => {
             return updatedItem;
         });
         setListProductInCart(results);
-        let arrs = [];
-            listProductInCart.map(item => {
-                let sum = item.price * item.qty;
-                arrs.push(sum)
-            })
-        console.log(arrs);
     }
 
     const handleUp = (productId) => {
@@ -148,7 +142,7 @@ const Cart = () => {
                             <div className="product-cart-title">
                                 <h3>{product.title}</h3>
                                 <p>Size: <span>{product.size}</span></p>
-                                <p>Price: <span>{product.price} VND</span></p>
+                                <p>Price: <span>{product.price} $</span></p>
                             </div>
                             <div className="product-cart-quantity">
                                 <div className="quantity-change">
@@ -171,7 +165,7 @@ const Cart = () => {
                             </div>
                             <div className="product-cart-total">
                                 <h4>Total</h4>
-                                <p>{product.price * product.qty} VND</p>
+                                <p>{product.price * product.qty} $</p>
                             </div>
                             <div className="product-cart-delete">
                                 <DeleteIcon onClick={() => handleDelete(product.cartId)}/>
@@ -188,7 +182,7 @@ const Cart = () => {
                 </div>
                 <div className="total-bill">
                     <h5>Total Bill</h5>
-                    <h3>{total} VND</h3>
+                    <h3>{total} $</h3>
                 </div>
                 <div className="product-cart-action">
                 <button type="button" onClick={handleCheckout}>

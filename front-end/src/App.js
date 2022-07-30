@@ -25,6 +25,7 @@ import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import Checkout from "./Components/pages/Checkout/Checkout";
 import OrderManager from "./Components/pages/OrderManager/OrderManager";
+import Order from "./Components/pages/Order/Order";
 const App = () => {
     const [user, setUser] = useState({});
     const [idCategory, setIdCategory] = useState(0);
@@ -61,6 +62,7 @@ const App = () => {
                     <Route path='/checkout' element={<Checkout userCheckout={userCheckout}/>}></Route>
                     <Route path='/product-detail/:id' element={<ProductDetail/>}></Route>
                     <Route path='/order-manager' element={<OrderManager/>}></Route>
+                    <Route path='/order' element={<Order />}></Route>
                 </Routes>
                 <Footer />
             </Router>

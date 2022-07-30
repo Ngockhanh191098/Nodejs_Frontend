@@ -1,5 +1,5 @@
 import './header.css';
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Logo from '../../images/logo1.png';
 import SearchIcon from '@mui/icons-material/Search';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';

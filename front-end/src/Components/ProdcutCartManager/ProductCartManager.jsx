@@ -38,13 +38,13 @@ const ProductCart = (props) => {
                     <img src={`${ImageAPI.IMAGE_API}/${image}`} alt={image} />
                 </div>
                 <div className="product-title">
-                    <strong>Title : </strong><span>{title}</span>
+                    <span>Title : <strong>{title}</strong></span>
                 </div>
                 <div className="product-price">
-                    <strong>Price : </strong><span>{price}</span>
+                    <p>Price : <strong>{price} $</strong></p>
                 </div>
                 <div className="product-size">
-                    <strong>Size : </strong><span>{size}</span>
+                    <p>Size : <strong>{size}</strong></p>
                 </div>
                 <div className='handle-btn'>
                     <EditIcon className='edit-btn' onClick={() => updateProduct(id)}/>

@@ -107,6 +107,10 @@ const ManagerAccount = () => {
         return errors;
     }
 
+    const redirecOrder = () => {
+        return navigate('/order')
+    }
+
     return ( 
             <div className="account-manager-container">
             {formChangePass ? (
@@ -154,7 +158,7 @@ const ManagerAccount = () => {
                <>
                     <div className="account-avatar">
                         <img src={((account.avatar) === undefined) ? (``) : (`http://127.0.0.1:5000/public/images/${account.avatar}`)} alt={account.avatar} />
-                        <button className="change-avt">Change Avatar</button>
+                        {/* <button className="change-avt">Change Avatar</button> */}
                     </div>
                     <div className="account-info-action">
                         {(role === 'admin') ? (
@@ -174,7 +178,7 @@ const ManagerAccount = () => {
                                 <div className="account-info"><strong>Phone: </strong><span>{account.phone}</span></div>
                                 <div className="account-info"><strong>Address: </strong><span>{account.address}</span></div>
                                 <button className="account-action" onClick={handleChangePass}>Change Password</button>
-                                <button className="account-action">My Order</button>
+                                <button className="account-action" onClick={redirecOrder}>My Order</button>
                             </>
                         )}
                         

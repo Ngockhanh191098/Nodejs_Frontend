@@ -4,6 +4,9 @@
 .table-customer-manager {
     width: 100%;
 }
+.table-customer-manager thead tr {
+    text-align: center;
+}
 .add-user {
     display: flex;
 }

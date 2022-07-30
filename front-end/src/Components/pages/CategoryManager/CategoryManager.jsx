@@ -121,7 +121,7 @@ const CategoryManager = () => {
                             <h3>{category.name}</h3>
                         </div>
                         <div className="cate-acction">
-                            <button type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop" onClick={() => handleUpdate(category.id)}>
+                            <button type="button" className="btn btn-primary edit-cate-btn" data-bs-toggle="modal" data-bs-target="#staticBackdrop" onClick={() => handleUpdate(category.id)}>
                                 EDIT
                             </button>
                             <DeleteIcon className="delete-cate" onClick={() => handleDelete(category.id)}/>

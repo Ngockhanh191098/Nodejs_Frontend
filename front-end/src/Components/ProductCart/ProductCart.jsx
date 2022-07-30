@@ -67,8 +67,8 @@ const ProductCart = (props) => {
                     <Link to={`/product-detail/${id}`} className="dog-title">{title}</Link>
                 </div>
                 <div className="dog-price-breed">
-                    <Link to={`/product-detail/${id}`} className="dog-price">Price: {price} VND</Link>
-                    <Link to={`/product-detail/${id}`} className="dog-breed">Size: {size}</Link>
+                    <Link to={`/product-detail/${id}`} className="dog-price">Price: <strong>{price} $</strong></Link>
+                    <Link to={`/product-detail/${id}`} className="dog-breed">Size: <strong>{size}</strong></Link>
                 </div>
                 <div className="add-buy">
                     <AddShoppingCartIcon className="add-cart" onClick={() => handleAddCart(id)}/>

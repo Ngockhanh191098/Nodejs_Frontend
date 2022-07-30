@@ -1,6 +1,6 @@
 import Axios from 'axios';
-import { useEffect, useRef, useState } from 'react';
-import Button from 'react-bootstrap/Button';
+import { useEffect, useState } from 'react';
+// import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
@@ -139,15 +139,15 @@ const Checkout = () => {
                     <h5>Quantity Items: {checkout.totalItems}</h5>
                 </div>
                 <div className='total-bill'>
-                    <h5>Total Cost: {checkout.totalBill} VND</h5>
+                    <h5>Total Cost: {checkout.totalBill} $</h5>
                 </div>
                 <div className='checkout-action'>
-                    <Button variant="success" type="button" className='checkout-btn' onClick={handleCheckout}>
+                    <button type="button" className='checkout-btn' onClick={handleCheckout}>
                         CHECKOUT
-                    </Button>
-                    <Button variant="primary" type="button" onClick={handleBackToCart}>
+                    </button>
+                    <button type="button" className='back-to-cart' onClick={handleBackToCart}>
                         BACK TO CART
-                    </Button>
+                    </button>
                 </div>
             </div>
         </div>

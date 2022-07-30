@@ -1,6 +1,7 @@
 
 import axios from 'axios';
 import { useContext, useEffect, useState } from 'react';
+import { ProductAPI } from '../../../API/API';
 import UserContext from '../../../Contexts/UserContext';
 import Banner from '../../commons/Banner/Banner';
 import ListProduct from '../../ListProduct/ListProduct';
@@ -15,7 +16,7 @@ const Home = () => {
 
     useEffect( () => {
         axios.get(
-            "http://127.0.0.1:5000/api/v1/product?offset=0&limit=4",{
+            `${ProductAPI.PRODUCT_API}?offset=0&limit=4`,{
         })
         .then(res => {
             setListProduct(res.data.rows);

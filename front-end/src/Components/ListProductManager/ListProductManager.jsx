@@ -1,5 +1,5 @@
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import ProductCart from "../ProdcutCartManager/ProductCartManager";
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import './listProductManager.css';

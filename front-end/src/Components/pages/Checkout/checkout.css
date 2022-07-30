@@ -48,3 +48,12 @@
 .checkout-action .checkout-btn {
     margin-bottom: 10px;
 }
+.checkout-btn {
+    background-color: green;
+}
+.checkout-btn:hover {
+    background-color: rgb(39, 111, 56);
+}
+.back-to-cart {
+    background-color: gray;
+}
