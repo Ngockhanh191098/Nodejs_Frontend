@@ -15,6 +15,8 @@ const CustomerManager = () => {
     const [usename, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [iamRole, setIamRole] = useState('admin');
+    const [idUser, setIdUser] = useState(0)
     const newUser = {
         username: usename,
         email: email,
@@ -78,6 +80,25 @@ const CustomerManager = () => {
         })
     }
 
+    const handleEdit = (id) => {
+        setIdUser(id);
+    }
+
+    const handleUpdateRole = () => {
+        axios.put(
+            `${UserAPI.USER_API}/${idUser}`,{iamRole},{
+                headers: {
+                    'x-access-token': localStorage.getItem('token')
+                }
+            }
+        )
+        .then(res => {
+            toast.success(res.data.message);
+        })
+        .catch(err => {
+            console.log(err);
+        })
+    }
 
     return ( 
         <div className="user-manager-container">
@@ -109,7 +130,26 @@ const CustomerManager = () => {
                                 <td>{user.phone}</td>
                                 <td>{user.address}</td>
                                 <td>
-                                    <EditIcon className="edit-user"/>
+                                    <EditIcon className="edit-user" onClick={() => handleEdit(user.id)} data-bs-toggle="modal" data-bs-target="#exampleModal"/>
+                                    <div className="modal fade" id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div className="modal-dialog">
+                                            <div className="modal-content">
+                                            <div className="modal-header">
+                                                <h5 className="modal-title" id="exampleModalLabel">UPDATE ROLE</h5>
+                                                <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div className="modal-body">
+                                                <select name="role" onChange={(e) => setIamRole(e.target.value)} style={{width:"100%", padding:"10px"}}>
+                                                    <option value="admin">Admin</option>
+                                                    <option value="member">Member</option>
+                                                </select>
+                                            </div>
+                                            <div className="modal-footer">
+                                                <button type="button" className="btn btn-primary" onClick={handleUpdateRole}>Save changes</button>
+                                            </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                     <DeleteIcon className="delete-user" onClick={() => handleDelete(user.id)}/>
                                 </td>
                             </tr>
@@ -147,6 +187,7 @@ const CustomerManager = () => {
                     </div>
                 </div>
             </div>
+            
         </div>
      );
 }

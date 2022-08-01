@@ -165,7 +165,7 @@ const Cart = () => {
                             </div>
                             <div className="product-cart-total">
                                 <h4>Total</h4>
-                                <p>{product.price * product.qty} $</p>
+                                <p>{(product.price * product.qty).toFixed(1)} $</p>
                             </div>
                             <div className="product-cart-delete">
                                 <DeleteIcon onClick={() => handleDelete(product.cartId)}/>
@@ -182,7 +182,7 @@ const Cart = () => {
                 </div>
                 <div className="total-bill">
                     <h5>Total Bill</h5>
-                    <h3>{total} $</h3>
+                    <h3>{total.toFixed(1)} $</h3>
                 </div>
                 <div className="product-cart-action">
                 <button type="button" onClick={handleCheckout}>

@@ -47,5 +47,11 @@
 }
 .detail-image img {
     width: 100%;
-    
+}
+.search-by-date {
+    padding: 10px;
+    margin: 20px;
+    border: 2px solid rgb(46, 72, 222);
+    border-radius: 10px;
+    background-color: rgb(147, 167, 167);
 }

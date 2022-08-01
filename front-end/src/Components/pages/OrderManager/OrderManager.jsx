@@ -7,10 +7,11 @@ const OrderManager = () => {
     const [listOrder, setListOrder] = useState([]);
     const [orderDetail, setOrderDetail] = useState([]);
     const [payment, setPayment] = useState([]);
+    const [searchDate, setSearchDate] = useState('all');
 
     useEffect(() => {
         axios.get(
-            `${OrderAPI.ORDER_API}`,{
+            `${OrderAPI.ORDER_API}?date=${searchDate}`,{
                 headers: {
                     'x-access-token': localStorage.getItem('token')
                 }
@@ -19,9 +20,9 @@ const OrderManager = () => {
             setListOrder(res.data);
         })
         .catch(err => {
-            console.log(err);
+            console.log('loi me roi');
         })
-    }, []);
+    }, [searchDate]);
 
     const handleDetail = (id) => {
         axios.get(
@@ -52,10 +53,17 @@ const OrderManager = () => {
             console.log(err);
         })
 
-    }
+    };
+
 
     return ( 
         <div className="order-manager-container">
+            <select name="order" className="search-by-date" onChange={(e) => setSearchDate(e.target.value)}>    
+                <option value="all">All</option>
+                <option value="1">Today</option>
+                <option value="7">Week ago</option>
+                <option value="30">Month ago</option>
+            </select>
             <ul className="list-order">
                 <li className="order-id">ID Order</li>
                 <li className="order-username">Username Customer</li>
@@ -92,9 +100,9 @@ const OrderManager = () => {
                         <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div className="modal-body">
-                        {orderDetail.map((item) => {
+                        {orderDetail.map((item, index) => {
                             return (
-                                <div className="detail-container">
+                                <div className="detail-container" key={index}>
                                     <div className="detail-image">
                                         <img src={`http://127.0.0.1:5000/public/images/${item.image}`} alt="product" />
                                     </div>
