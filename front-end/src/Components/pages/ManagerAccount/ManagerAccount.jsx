@@ -5,9 +5,9 @@ import { useNavigate } from "react-router-dom";
 import './managerAccount.css';
 import CloseIcon from '@mui/icons-material/Close';
 import { toast } from "react-toastify";
-import { UserAPI } from "../../../API/API";
+import { AccountAPI, UserAPI } from "../../../API/API";
 
-const ManagerAccount = () => {
+const ManagerAccount = ({setIsAddCart, isAddCart}) => {
 
     const navigate = useNavigate();
 
@@ -17,9 +17,12 @@ const ManagerAccount = () => {
     const [formErrors, setFormErrors] = useState({})
     const [isSubmit, setIsSubmit] = useState(false)
     const [formChangePass, setFormChangePass] = useState(false)
+    const [file, setFile] = useState(null);
     const role = localStorage.getItem('role')
-
     const idUser = localStorage.getItem('idUser');
+
+    
+
     useEffect(() => {
         axios.get(
             `${UserAPI.USER_API}/${idUser}`,{
@@ -35,6 +38,7 @@ const ManagerAccount = () => {
         .catch(err => {
             console.log(err);
         });
+
         const isSuccess = Object.keys(formErrors).length === 0 && isSubmit;
 
         if (isSuccess){
@@ -66,7 +70,29 @@ const ManagerAccount = () => {
                         }
                     })
         }
-    },[formErrors]);
+
+        const newAvatar = new FormData();
+        newAvatar.append('image', file)
+
+        if (file !== null) {
+            axios.put(
+                `${AccountAPI.ACCOUNT_API}/avatar/${account.id}`,newAvatar,{
+                    headers: {
+                        'x-access-token': localStorage.getItem('token')
+                    }
+                }
+            )
+            .then(res => {
+                setAccount(res.data.user);
+                localStorage.setItem('avatar', res.data.user.avatar)
+                setIsAddCart(!isAddCart);
+            })
+            .catch(err => {
+                console.log(err);
+            })
+
+        }
+    },[formErrors,file]);
 
     const closeForm = () => {
         setFormChangePass(false);
@@ -105,6 +131,10 @@ const ManagerAccount = () => {
             errors.confirmPassword = "* Confirm password is not format with password!"
         }
         return errors;
+    }
+
+    const handleChangeAvt = () => {
+        document.getElementById('update-avt').click();
     }
 
     const redirecOrder = () => {
@@ -158,7 +188,15 @@ const ManagerAccount = () => {
                <>
                     <div className="account-avatar">
                         <img src={((account.avatar) === undefined) ? (``) : (`http://127.0.0.1:5000/public/images/${account.avatar}`)} alt={account.avatar} />
-                        {/* <button className="change-avt">Change Avatar</button> */}
+                        <input 
+                            type="file" 
+                            id="update-avt" 
+                            accept=".jpg,.jpeg,.png" 
+                            name="file" 
+                            onChange={(e) => setFile(e.target.files[0])}
+                            style={{display:"none"}}
+                        />
+                        <button onClick={handleChangeAvt}>Change Avatar</button>
                     </div>
                     <div className="account-info-action">
                         {(role === 'admin') ? (

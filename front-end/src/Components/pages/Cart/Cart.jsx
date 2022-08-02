@@ -5,15 +5,15 @@ import './cart.css';
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { CartAPI } from "../../../API/API";
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 
-const Cart = () => {
+const Cart = ({isAddCart, setIsAddCart}) => {
     const idUser = localStorage.getItem("idUser");
     const [defaultQuantity, setDefaultQuantity] = useState(1);
     const [listProductInCart, setListProductInCart] = useState([]);
     const [isAction, setIsAction] = useState(false);
     const [userEmail, setUserEmail] = useState('');
     const navigate = useNavigate();
-    console.log(listProductInCart);
     
     const handleDelete = (idProduct) => {
         axios.delete(
@@ -28,6 +28,7 @@ const Cart = () => {
                 position: toast.POSITION.TOP_CENTER
               });
             setIsAction(!isAction);
+            setIsAddCart(!isAddCart)
         })
         .catch(err => {
             toast.error(err.response.data.message,{
@@ -127,6 +128,7 @@ const Cart = () => {
         <div className="product-cart-container">
             {(listProductInCart.length === 0) ? (
                 <div className="cart-empty">
+                    <ShoppingCartIcon className="cart-icon"/>
                     <h3>Cart is empty!</h3>
                     <button onClick={handleShopping}>Shopping Now</button>
                 </div>

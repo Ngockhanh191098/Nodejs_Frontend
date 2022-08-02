@@ -6,8 +6,9 @@ import UserContext from '../../../Contexts/UserContext';
 import Banner from '../../commons/Banner/Banner';
 import ListProduct from '../../ListProduct/ListProduct';
 import Pagination from '../../Pagination/Pagination';
+import Slider from '../../../Slider/Slider';
 
-const Home = () => {
+const Home = ({setIsAddCart, isAddCart}) => {
 
     const { isAdmin } = useContext(UserContext);
     const [listProduct, setListProduct] = useState([]);
@@ -16,7 +17,7 @@ const Home = () => {
 
     useEffect( () => {
         axios.get(
-            `${ProductAPI.PRODUCT_API}?offset=0&limit=4`,{
+            `${ProductAPI.PRODUCT_API}?offset=0&limit=8`,{
         })
         .then(res => {
             setListProduct(res.data.rows);
@@ -28,10 +29,10 @@ const Home = () => {
 
     return ( 
         <>
-            <Banner />
+            <Slider />
             {(isAdmin === 'admin') ? (<></>) : (
                 <>
-                    <ListProduct listProduct={listProduct} />
+                    <ListProduct listProduct={listProduct} setIsAddCart={setIsAddCart} isAddCart={isAddCart}/>
                     <Pagination limit={limit} count={count} setListProduct={setListProduct}/>
                 </>
             )}

@@ -4,7 +4,7 @@ import './listproduct.css';
 
 const ListProduct = (props) => {
 
-    const {listProduct} = props;
+    const {listProduct, setIsAddCart, isAddCart} = props;
 
     return ( 
         <>
@@ -18,6 +18,8 @@ const ListProduct = (props) => {
                                 price={product.price}
                                 size={product.size}
                                 image={product.image}
+                                setIsAddCart={setIsAddCart}
+                                isAddCart={isAddCart}
                             />
                         </div>
                     )

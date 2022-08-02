@@ -6,6 +6,8 @@ import { Link, useNavigate } from "react-router-dom";
 import UserContext from "../../../Contexts/UserContext";
 import { toast } from "react-toastify";
 import { AccountAPI, AuthAPI } from "../../../API/API";
+import Backdrop from '@mui/material/Backdrop';
+import CircularProgress from '@mui/material/CircularProgress';
 
 const Login = () => {
 
@@ -15,6 +17,7 @@ const Login = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [email, setEmail] = useState('');
+    const [open, setOpen] = useState(false);
     const { setUser } = useContext(UserContext);
     const dataLogin = {
         username: username,
@@ -41,13 +44,13 @@ const Login = () => {
             setUser(res.data);
             toast.success("Login successfully!",{
                 position: toast.POSITION.TOP_CENTER
-              })
+            })
             return navigate('/')
         })
         .catch(err => {
             toast.error(err.response.data.message,{
                 position: toast.POSITION.TOP_CENTER
-              })
+            })
         });
     };
 
@@ -61,6 +64,7 @@ const Login = () => {
         email: email
     }
     const handleSendEmail = () => {
+        setOpen(true);
         axios.post(
             `${AccountAPI.ACCOUNT_API}/forgotpass`,
             data
@@ -69,6 +73,7 @@ const Login = () => {
             toast.success(res.data.message,{
                 position: toast.POSITION.TOP_CENTER
               });
+            return navigate('/');
         })
         .catch(err => {
             toast.error(err.response.data.message,{
@@ -110,6 +115,12 @@ const Login = () => {
                         <button type="button" onClick={handleCancel}>Cancel</button>
                     </div>
                 </>)}
+                <Backdrop
+                    sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+                    open={open}
+                >
+                    <CircularProgress color="inherit" />
+                </Backdrop>
         </div>
      );
 }

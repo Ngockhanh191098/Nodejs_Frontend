@@ -5,6 +5,8 @@ import Form from 'react-bootstrap/Form';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { PaymentAPI } from '../../../API/API';
+import Backdrop from '@mui/material/Backdrop';
+import CircularProgress from '@mui/material/CircularProgress';
 import './checkout.css';
 
 const Checkout = () => {
@@ -14,6 +16,7 @@ const Checkout = () => {
     const [formErrors, setFormErrors] = useState({})
     const [isSubmit, setIsSubmit] = useState(false);
     const [method, setMethod] = useState('CASH');
+    const [open, setOpen] = useState(false);
     const idUser = localStorage.getItem('idUser');
     const checkout = JSON.parse(localStorage.getItem('checkout'));
 
@@ -37,11 +40,13 @@ const Checkout = () => {
     const handleCheckout = () => {
         setFormErrors(validate(formValues));
         setIsSubmit(true);
+
     };
     
 
     useEffect(() => {
         if (Object.keys(formErrors).length === 0 && isSubmit){
+            setOpen(true);
             Axios.post(`${PaymentAPI.PAYMENT_API}`,newDataCheckout,{
                 headers: {
                     "Content-Type": "application/json",
@@ -149,6 +154,12 @@ const Checkout = () => {
                         BACK TO CART
                     </button>
                 </div>
+                <Backdrop
+                    sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+                    open={open}
+                >
+                    <CircularProgress color="inherit" />
+                </Backdrop>
             </div>
         </div>
      );

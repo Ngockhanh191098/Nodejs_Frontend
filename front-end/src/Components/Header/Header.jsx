@@ -8,16 +8,18 @@ import { useNavigate } from 'react-router-dom';
 import NavbarCustomer from '../Navbar/Navbar';
 import axios from 'axios';
 import { toast } from 'react-toastify';
-import { CategoryAPI } from '../../API/API';
+import { CartAPI, CategoryAPI } from '../../API/API';
 
 const Header = (props) => {
 
-    const {setIdCategory, setSearchKey} = props;
+    const {setIdCategory, setSearchKey, isAddCart} = props;
     const [listCategory, setListCategory] = useState([]);
     const avatar = localStorage.getItem('avatar');
     const username = localStorage.getItem("username");
     const idUser = localStorage.getItem('idUser');
+    const [countItem, setCountItem] = useState(0)
     const navigate = useNavigate();
+
     const handleLogout = () => {
         localStorage.clear();
         toast.success("Logout Successfully!",{
@@ -35,7 +37,23 @@ const Header = (props) => {
         .catch(err => {
             console.log(err);
         });
-    },[]);
+
+        if (idUser) {
+            axios.get(
+                `${CartAPI.CART_API}/${idUser}`,{
+                    headers: {
+                        "Content-Type": "Application/json",
+                        "x-access-token": localStorage.getItem('token')
+                        }
+            })
+            .then(res => {
+                setCountItem(res.data.countItem);
+            })
+            .catch(err => {
+                console.log(err.response.data.message);
+            })
+        }
+    },[isAddCart]);
 
 
     
@@ -61,6 +79,7 @@ const Header = (props) => {
             {(idUser) ? (
                 <div className='cart-item'>
                     <Link className='header-cart' to='/cart'><ShoppingCartIcon className='cart-item' /></Link>
+                    <span className='cart-quantity'>{countItem}</span>
                 </div>
             ) : (
                 <div className='cart-item'>

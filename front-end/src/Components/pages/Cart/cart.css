@@ -73,4 +73,9 @@
 }
 .cart-empty {
     margin-right: 50px;
+    text-align: center;
+}
+.cart-empty .cart-icon {
+    font-size: 100px;
+    margin-bottom: 30px;
 }

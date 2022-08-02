@@ -55,6 +55,12 @@ const OrderManager = () => {
 
     };
 
+    const formatDate = (dateString) => {
+        const options = { year: "numeric", month: "long", day: "numeric" }
+        return new Date(dateString).toLocaleDateString(undefined, options)
+      }
+      
+
 
     return ( 
         <div className="order-manager-container">
@@ -77,7 +83,7 @@ const OrderManager = () => {
                             <li className="order-id">{order.orderId}</li>
                             <li className="order-username">{order.username}</li>
                             <li className="order-email">{order.email}</li>
-                            <li className="order-time">{order.createdAt}</li>
+                            <li className="order-time">{formatDate(order.createdAt)}</li>
                             <li className="order-action">
                             <button 
                                 type="button" 

@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 import { CartAPI, ImageAPI } from "../../API/API";
 
 const ProductCart = (props) => {
-    const {id, title, price, size, image } = props;
+    const {id, title, price, size, image, setIsAddCart, isAddCart } = props;
     const idUser = localStorage.getItem('idUser');
     const username = localStorage.getItem('username');
     const navigate = useNavigate();
@@ -28,6 +28,7 @@ const ProductCart = (props) => {
             toast.success(res.data.message,{
                 position: toast.POSITION.TOP_CENTER
               });
+            setIsAddCart(!isAddCart)
         })
         .catch(err => {
             console.log(err);
@@ -48,6 +49,7 @@ const ProductCart = (props) => {
                     }
         })
         .then(res => {
+            setIsAddCart(!isAddCart)
             return navigate('/cart')
         })
         .catch(err => {
