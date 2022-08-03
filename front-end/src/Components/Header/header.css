@@ -3,9 +3,7 @@
     justify-content: space-around;
     align-items: center;
     background-color: antiquewhite;
-    position: sticky;
-    top: 0;
-    z-index: 999;
+    border-bottom: 2px solid #999;
 }
 .header-logo {
     width: 180px;
@@ -71,6 +69,7 @@
     width: 130px;
     background-color: aliceblue;
     display: none;
+    z-index: 1000;
 }
 .header-account:hover .manager-account {
     display: block;
@@ -95,4 +94,22 @@
     border-radius: 20px;
     left: 30px;
     top: -15px;
+}
+
+@keyframes scroll {
+    0%   {transform: translateY(-100%);}
+    100% {transform: translateY(0%);}
+  }
+.is-sticky {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 999;
+    box-shadow: 0 2px 24px 0 rgb(0 0 0 / 15%);
+    background-color: antiquewhite;
+    animation-name: scroll;
+    animation-duration: 1s;
+    padding-top: 0px;
+    padding-bottom: 0px;
 }

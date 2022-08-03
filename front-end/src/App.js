@@ -61,7 +61,7 @@ const App = () => {
                     <Route path='/customer-manager' element={<CustomerManager />}></Route>
                     <Route path='/cart' element={<Cart setUserCheckout={setUserCheckout} setIsAddCart={setIsAddCart} isAddCart={isAddCart}/>}></Route>
                     <Route path='/checkout' element={<Checkout userCheckout={userCheckout}/>}></Route>
-                    <Route path='/product-detail/:id' element={<ProductDetail/>}></Route>
+                    <Route path='/product-detail/:id' element={<ProductDetail setIsAddCart={setIsAddCart} isAddCart={isAddCart}/>}></Route>
                     <Route path='/order-manager' element={<OrderManager/>}></Route>
                     <Route path='/order' element={<Order />}></Route>
                 </Routes>

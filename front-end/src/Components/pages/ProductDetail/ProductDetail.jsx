@@ -7,9 +7,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useEffect } from "react";
 import { CartAPI, ImageAPI, ProductAPI } from "../../../API/API";
 
-const ProductDetail = () => {
+const ProductDetail = ({setIsAddCart, isAddCart}) => {
     const params = useParams();
-    const [quantity, setQuantity] = useState(1);
     const idUser = localStorage.getItem('idUser');
     const username = localStorage.getItem('username');
     const [productDetail, setProductDetail] = useState({});
@@ -47,6 +46,7 @@ const ProductDetail = () => {
             toast.success(res.data.message,{
                 position: toast.POSITION.TOP_CENTER
               });
+            setIsAddCart(!isAddCart)
         })
         .catch(err => {
             console.log(err);
@@ -67,6 +67,7 @@ const ProductDetail = () => {
                     }
         })
         .then(res => {
+            setIsAddCart(!isAddCart)
             return navigate('/cart')
         })
         .catch(err => {

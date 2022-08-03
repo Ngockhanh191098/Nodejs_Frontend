@@ -18,6 +18,7 @@ const Header = (props) => {
     const username = localStorage.getItem("username");
     const idUser = localStorage.getItem('idUser');
     const [countItem, setCountItem] = useState(0)
+    const [sticky, setSticky] = useState("");
     const navigate = useNavigate();
 
     const handleLogout = () => {
@@ -26,8 +27,17 @@ const Header = (props) => {
             position: toast.POSITION.TOP_CENTER
           });
         return navigate('/');
-    }
+    };
+
+    const isSticky = () => {
+        /* Method that will fix header after a specific scrollable */
+        const scrollTop = window.scrollY;
+        const stickyClass = scrollTop >= 200 ? "is-sticky" : "";
+        setSticky(stickyClass);
+      };
+
     useEffect(() => {
+        window.addEventListener('scroll', isSticky);
         axios.get(
             `${CategoryAPI.CATEGORY_API}`
         )
@@ -53,6 +63,10 @@ const Header = (props) => {
                 console.log(err.response.data.message);
             })
         }
+
+        return () => {
+            window.removeEventListener('scroll', isSticky);
+        };
     },[isAddCart]);
 
 
@@ -62,8 +76,9 @@ const Header = (props) => {
         return navigate('/search');
     }
 
+    const classes = `header-container ${sticky}`
     return (
-        <div className='header-container'>
+        <div className={classes}>
             <Link to ='/' className='header-logo'>
                 <img src={Logo} alt={Logo} />
             </Link>
