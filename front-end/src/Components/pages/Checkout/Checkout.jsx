@@ -144,7 +144,7 @@ const Checkout = () => {
                     <h5>Quantity Items: {checkout.totalItems}</h5>
                 </div>
                 <div className='total-bill'>
-                    <h5>Total Cost: {checkout.totalBill} $</h5>
+                    <h5>Total Cost: $ {checkout.totalBill}</h5>
                 </div>
                 <div className='checkout-action'>
                     <button type="button" className='checkout-btn' onClick={handleCheckout}>

@@ -20,7 +20,6 @@ const Product = (props) => {
             const res = await Axios.get(
                 `${CategoryAPI.CATEGORY_API}`,{
                     headers: {
-                        "Content-Type": "application/json",
                         "x-access-token": localStorage.getItem('token')
                         }
                 }
@@ -32,7 +31,7 @@ const Product = (props) => {
         })
         getCategory().catch(err => console.log(err));
 
-        if (idCategory === 0) {
+        if (idCategory === 0 && searchKey === '') {
             Axios.get(
                 `${ProductAPI.PRODUCT_API}?offset=0&limit=8`,{
                     headers: {
@@ -46,19 +45,7 @@ const Product = (props) => {
                 setLimit(res.data.limit);
             })
             .catch(err => console.log(err));
-        }
-
-        if (searchKey === '') {
-            Axios.get(
-                `${ProductAPI.PRODUCT_API}/category/${idCategory}`
-            )
-            .then(res => {
-                setListProduct(res.data);
-            })
-            .catch(err => {
-                console.log(err);
-            })
-        }else {
+        }else if (searchKey !== ''){
             Axios.get(
                 `${ProductAPI.PRODUCT_API}/search?key=${searchKey}`
             )
@@ -68,7 +55,17 @@ const Product = (props) => {
             .catch(err => {
                 console.log(err);
             })
-        } 
+        }else if (idCategory !== 0){
+            Axios.get(
+                `${ProductAPI.PRODUCT_API}/category/${idCategory}`
+            )
+            .then(res => {
+                setListProduct(res.data);
+            })
+            .catch(err => {
+                console.log(err);
+            })
+        }
 
     }, [idCategory,searchKey,isAction])
 

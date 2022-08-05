@@ -31,7 +31,7 @@ const ProductCart = (props) => {
             setIsAddCart(!isAddCart)
         })
         .catch(err => {
-            console.log(err);
+            toast.error(err.response.data.message);
         })
     }
 
@@ -69,7 +69,7 @@ const ProductCart = (props) => {
                     <Link to={`/product-detail/${id}`} className="dog-title">{title}</Link>
                 </div>
                 <div className="dog-price-breed">
-                    <Link to={`/product-detail/${id}`} className="dog-price">Price: <strong>{price} $</strong></Link>
+                    <Link to={`/product-detail/${id}`} className="dog-price">Price: <strong>$ {price}</strong></Link>
                     <Link to={`/product-detail/${id}`} className="dog-breed">Size: <strong>{size}</strong></Link>
                 </div>
                 <div className="add-buy">

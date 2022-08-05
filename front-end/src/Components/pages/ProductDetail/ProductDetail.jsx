@@ -88,7 +88,7 @@ const ProductDetail = ({setIsAddCart, isAddCart}) => {
                 </div>
                 <div className="product-price">
                     <p>Price: </p>
-                    <h3><strong>{productDetail.price} $</strong></h3>
+                    <h3><strong>$ {productDetail.price}</strong></h3>
                 </div>
                 <div className="product-size">
                     <p>Size: </p>

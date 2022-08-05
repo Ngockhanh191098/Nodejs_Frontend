@@ -22,7 +22,6 @@ const ProductCate = (props) => {
     },[idCategory])
     return ( 
         <>
-            <Banner />
             <ListProduct listProduct={listProduct} />
         </>
      );

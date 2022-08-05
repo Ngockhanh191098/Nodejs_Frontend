@@ -41,7 +41,7 @@ const ProductCart = (props) => {
                     <span>Title : <strong>{title}</strong></span>
                 </div>
                 <div className="product-price">
-                    <p>Price : <strong>{price} $</strong></p>
+                    <p>Price : $ <strong>{price}</strong></p>
                 </div>
                 <div className="product-size">
                     <p>Size : <strong>{size}</strong></p>

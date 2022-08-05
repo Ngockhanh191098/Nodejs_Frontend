@@ -25,7 +25,7 @@ const SearchProduct = (props) => {
     return ( 
         <div className="search-page-container">
             <h3 className="search-title">Result for "{searchKey}"</h3>
-            {listProduct.length === 0 ? (
+            {((listProduct.length === 0) || (searchKey === '')) ? (
                 <>
                     <h2 className="search-notfound">NOT FOUND PRODUCT YOU WANT</h2>
                 </>

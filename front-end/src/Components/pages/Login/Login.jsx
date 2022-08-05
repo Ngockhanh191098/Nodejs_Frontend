@@ -79,6 +79,7 @@ const Login = () => {
             toast.error(err.response.data.message,{
                 position: toast.POSITION.TOP_CENTER
               });
+            return navigate('/');
         })
     }
     

@@ -55,7 +55,7 @@ const Cart = ({isAddCart, setIsAddCart}) => {
                 setUserEmail(res.data.email)
             })
             .catch(err => {
-                console.log(err.response.data.message);
+                toast.error(err.response.data.message);
             })
 
     },[isAction]);
@@ -144,7 +144,7 @@ const Cart = ({isAddCart, setIsAddCart}) => {
                             <div className="product-cart-title">
                                 <h3>{product.title}</h3>
                                 <p>Size: <span>{product.size}</span></p>
-                                <p>Price: <span>{product.price} $</span></p>
+                                <p>Price: <span>$ {product.price}</span></p>
                             </div>
                             <div className="product-cart-quantity">
                                 <div className="quantity-change">

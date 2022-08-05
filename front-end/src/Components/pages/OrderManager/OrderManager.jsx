@@ -136,7 +136,7 @@ const OrderManager = () => {
                             )
                         })}
                         <div className="detail-total">
-                            <h3>Total: {payment.total} $</h3>
+                            <h3>Total: $ {payment.total}</h3>
                         </div>
                     </div>
                     </div>

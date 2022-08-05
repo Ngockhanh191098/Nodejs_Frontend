@@ -39,7 +39,7 @@ const ManagerAccount = ({setIsAddCart, isAddCart}) => {
             console.log(err);
         });
 
-        const isSuccess = Object.keys(formErrors).length === 0 && isSubmit;
+        const isSuccess = (Object.keys(formErrors).length === 0 && isSubmit);
 
         if (isSuccess){
             const dataChange = {
@@ -203,26 +203,31 @@ const ManagerAccount = ({setIsAddCart, isAddCart}) => {
                     </div>
                     <div className="account-info-action">
                         {(role === 'admin') ? (
-                            <>
-                                <div className="account-info"><strong>Full Name: </strong><span>{account.fullName}</span></div>
-                                <div className="account-info"><strong>Username: </strong><span>{account.username}</span></div>
-                                <div className="account-info"><strong>Email: </strong><span>{account.email}</span></div>
-                                <div className="account-info"><strong>Phone: </strong><span>{account.phone}</span></div>
-                                <div className="account-info"><strong>Address: </strong><span>{account.address}</span></div>
+                            <div className="manager-info">
+                                <div className="account-info">
+                                    <div><strong>Full Name: </strong><span>{account.fullName}</span></div>
+                                    <div><strong>Username: </strong><span>{account.username}</span></div>
+                                    <div><strong>Email: </strong><span>{account.email}</span></div>
+                                    <div><strong>Phone: </strong><span>{account.phone}</span></div>
+                                    <div><strong>Address: </strong><span>{account.address}</span></div>
+                                </div>
                                 <button className="account-action" onClick={handleChangePass}>Change Password</button>
-                            </>
+                            </div>
                         ) : (
-                            <>
-                                <div className="account-info"><strong>Full Name: </strong><span>{account.fullName}</span></div>
-                                <div className="account-info"><strong>Username: </strong><span>{account.username}</span></div>
-                                <div className="account-info"><strong>Email: </strong><span>{account.email}</span></div>
-                                <div className="account-info"><strong>Phone: </strong><span>{account.phone}</span></div>
-                                <div className="account-info"><strong>Address: </strong><span>{account.address}</span></div>
-                                <button className="account-action" onClick={handleChangePass}>Change Password</button>
-                                <button className="account-action" onClick={redirecOrder}>My Order</button>
-                            </>
+                            <div className="manager-info">
+                                <div className="account-info">
+                                    <div><strong>Full Name: </strong><span>{account.fullName}</span></div>
+                                    <div><strong>Username: </strong><span>{account.username}</span></div>
+                                    <div><strong>Email: </strong><span>{account.email}</span></div>
+                                    <div><strong>Phone: </strong><span>{account.phone}</span></div>
+                                    <div><strong>Address: </strong><span>{account.address}</span></div>
+                                </div>
+                                <div className="account-action">
+                                    <button onClick={handleChangePass}>Change Password</button>
+                                    <button onClick={redirecOrder}>My Order</button>
+                                </div>
+                            </div>
                         )}
-                        
                     </div>
                </>
             )}

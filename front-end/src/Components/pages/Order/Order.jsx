@@ -27,7 +27,6 @@ const Order = () => {
     }, [])
 
     const handleDetail = (id) => {
-        console.log(id);
         axios.get(
             `${OrderDetailAPI.ORDERDETAIL_API}/${id}`,{
                 headers: {
@@ -106,7 +105,7 @@ const Order = () => {
                                     </div>
                                     <div className="detail-price">
                                         <h6>Price</h6>
-                                        <p>{item.price} $</p>
+                                        <p>$ {item.price}</p>
                                     </div>
                                     <div className="detail-size">
                                         <h6>Size</h6>
